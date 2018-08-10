@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zhuwenhao.flipped">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".FlippedApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,6 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".bandwagon.activity.BandwagonActivity"
+            android:label="@string/bandwagon"
+            android:theme="@style/AppTheme.SubActivity" />
+        <activity
+            android:name=".bandwagon.activity.BandwagonDetailActivity"
+            android:label="@string/bandwagon"
+            android:theme="@style/AppTheme.SubActivity" />
     </application>
 
 </manifest>

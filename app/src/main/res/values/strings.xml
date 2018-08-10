@@ -1,3 +1,30 @@
 <resources>
     <string name="app_name">Flipped</string>
+
+    <string name="bandwagon">搬瓦工</string>
+
+    <string name="in_theaters">正在热映</string>
+    <string name="movie_coming_soon">即将上映</string>
+
+    <string name="hostname">主机名</string>
+    <string name="vm_type">主机类型</string>
+    <string name="node_location">所在地</string>
+    <string name="os">操作系统</string>
+    <string name="ip_address">IP地址</string>
+    <string name="ssh_port">SSH端口</string>
+    <string name="status">状态</string>
+    <string name="cpu_load">CPU负载</string>
+    <string name="cpu_load_info_ovz">%1$s processes; LA: %2$s</string>
+    <string name="cpu_load_info_kvm">LA: %1$s</string>
+    <string name="ram">内存</string>
+    <string name="swap">虚拟内存</string>
+    <string name="disk_usage">磁盘使用情况</string>
+    <string name="bandwidth_usage">流量使用情况</string>
+    <string name="resets">重置：%1$s</string>
+
+    <string name="start">启动</string>
+    <string name="stop">停止</string>
+    <string name="reboot">重启</string>
+    <string name="kill">杀死</string>
+    <string name="more">更多</string>
 </resources>

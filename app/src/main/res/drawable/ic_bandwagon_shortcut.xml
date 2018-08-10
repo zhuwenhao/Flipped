@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@color/colorBackground" />
+        </shape>
+    </item>
+
+    <item
+        android:bottom="@dimen/shortcut_icon_margin"
+        android:drawable="@drawable/ic_bandwagon_primary"
+        android:left="@dimen/shortcut_icon_margin"
+        android:right="@dimen/shortcut_icon_margin"
+        android:top="@dimen/shortcut_icon_margin" />
+</layer-list>
