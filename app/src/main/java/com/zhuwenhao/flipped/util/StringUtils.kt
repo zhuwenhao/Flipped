@@ -26,6 +26,9 @@ class StringUtils {
         fun formatYearAndGenres(year: String, genres: List<String>): String {
             val sb = StringBuilder()
             sb.append(year)
+            if (genres.isEmpty())
+                return sb.toString()
+
             sb.append(" / ")
             for (genre in genres) {
                 sb.append(genre)

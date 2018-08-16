@@ -31,7 +31,7 @@ class InTheatersAdapter : BaseQuickAdapter<Subject, BaseViewHolder>(R.layout.ite
             helper.setGone(R.id.textMainlandPubDate, false)
         }
         helper.setText(R.id.textYearAndGenres, StringUtils.formatYearAndGenres(item.year, item.genres))
-        helper.setText(R.id.textDirectors, mContext.getString(R.string.item_directors, StringUtils.formatDirectors(item.directors)))
+        helper.setText(R.id.textDirectors, if (item.directors.isNotEmpty()) mContext.getString(R.string.item_directors, StringUtils.formatDirectors(item.directors)) else "")
         helper.setText(R.id.textCasts, if (item.casts.isNotEmpty()) mContext.getString(R.string.item_casts, StringUtils.formatCasts(item.casts)) else "")
     }
 }

@@ -42,6 +42,8 @@ dependencies {
         transitive = true
     }
 
+    implementation 'com.oushangfeng:PinnedSectionItemDecoration:1.2.6'
+
     implementation 'com.r0adkll:slidableactivity:2.0.6'
 
     implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'

@@ -1,5 +1,6 @@
 package com.zhuwenhao.flipped.movie.entity
 
+import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -19,7 +20,18 @@ data class Subject(val rating: Rating,
                    val year: String,
                    val images: Image,
                    val alt: String,
-                   val id: String) {
+                   val id: String) : MultiItemEntity {
+
+    companion object {
+        const val TYPE_HEADER: Int = 1
+        const val TYPE_DATA: Int = 2
+    }
+
+    var type: Int = 0
+
+    override fun getItemType(): Int {
+        return type
+    }
 
     val mainlandPubDateTime: DateTime
         get() = if (mainlandPubDate.isEmpty()) DateTime(1995, 11, 10, 0, 0) else DateTime.parse(mainlandPubDate, DateTimeFormat.forPattern("yyyy-MM-dd"))
