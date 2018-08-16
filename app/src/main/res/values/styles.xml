@@ -19,4 +19,12 @@
         <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
+
+    <style name="Movie" />
+
+    <style name="Movie.Cover" parent="@style/Movie">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">112dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
 </resources>

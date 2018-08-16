@@ -1,6 +1,8 @@
 package com.zhuwenhao.flipped.movie.entity
 
 import com.google.gson.annotations.SerializedName
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 
 data class Subject(val rating: Rating,
                    val genres: List<String>,
@@ -18,6 +20,9 @@ data class Subject(val rating: Rating,
                    val images: Image,
                    val alt: String,
                    val id: String) {
+
+    val mainlandPubDateTime: DateTime
+        get() = if (mainlandPubDate.isEmpty()) DateTime(1995, 11, 10, 0, 0) else DateTime.parse(mainlandPubDate, DateTimeFormat.forPattern("yyyy-MM-dd"))
 
     data class Rating(val max: Int,
                       val average: Double,

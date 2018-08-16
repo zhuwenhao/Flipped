@@ -3,8 +3,19 @@
 
     <string name="bandwagon">搬瓦工</string>
 
-    <string name="in_theaters">正在热映</string>
+    <string name="movie_in_theaters">正在热映</string>
     <string name="movie_coming_soon">即将上映</string>
+
+    <string name="load_more_fail">加载失败，点击重试</string>
+    <string name="the_end">THE END</string>
+
+    <string name="dou_ban_rating">豆瓣评分</string>
+    <string name="no_rating">暂无评分</string>
+    <string name="this_week_release">本%1$s上映</string>
+    <string name="next_week_release">下%1$s上映</string>
+    <string name="other_release">%1$s 上映</string>
+    <string name="item_directors">导演：%1$s</string>
+    <string name="item_casts">演员：%1$s</string>
 
     <string name="hostname">主机名</string>
     <string name="vm_type">主机类型</string>

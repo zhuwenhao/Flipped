@@ -7,4 +7,8 @@
     <color name="colorBackground">#F5F5F5</color>
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondaryText">#757575</color>
+
+    <color name="divider">#EEEEEE</color>
+
+    <color name="movieRating">#E09015</color>
 </resources>

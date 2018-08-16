@@ -7,6 +7,7 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
+import android.support.v4.app.Fragment
 import android.support.v7.content.res.AppCompatResources
 import android.view.View
 import com.mikepenz.materialdrawer.Drawer
@@ -15,8 +16,12 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.zhuwenhao.flipped.bandwagon.activity.BandwagonActivity
 import com.zhuwenhao.flipped.base.BaseActivity
+import com.zhuwenhao.flipped.movie.adapter.MoviePagerAdapter
+import com.zhuwenhao.flipped.movie.fragment.ComingSoonFragment
+import com.zhuwenhao.flipped.movie.fragment.InTheatersFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
 
@@ -51,11 +56,19 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
                 .build()
 
         val titles = ArrayList<String>()
-        titles.add(getString(R.string.in_theaters))
+        titles.add(getString(R.string.movie_in_theaters))
         titles.add(getString(R.string.movie_coming_soon))
         for (title in titles) {
             tabLayout.addTab(tabLayout.newTab().setText(title))
         }
+
+        val fragmentList = ArrayList<Fragment>()
+        fragmentList.add(InTheatersFragment.newInstance())
+        fragmentList.add(ComingSoonFragment.newInstance())
+
+        val pagerAdapter = MoviePagerAdapter(supportFragmentManager, fragmentList, titles)
+        viewPager.adapter = pagerAdapter
+        tabLayout.setupWithViewPager(viewPager)
 
         createDynamicShortcuts()
     }
