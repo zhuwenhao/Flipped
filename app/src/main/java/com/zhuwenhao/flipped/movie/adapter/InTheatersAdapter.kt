@@ -22,9 +22,9 @@ class InTheatersAdapter : BaseQuickAdapter<Subject, BaseViewHolder>(R.layout.ite
             helper.setGone(R.id.textRating, true)
             helper.setText(R.id.textRating, item.rating.average.toString())
         }
-        if (DateTime.now().millis < item.mainlandPubDateTime.millis) {
+        if (DateTime.now().millis < item.mainlandDateTime.millis) {
             helper.setGone(R.id.textDouBanRating, item.rating.average != 0.0)
-            helper.setText(R.id.textMainlandPubDate, StringUtils.formatMainlandPubDate(item.mainlandPubDateTime))
+            helper.setText(R.id.textMainlandPubDate, StringUtils.formatMainlandPubDate(item.mainlandDateTime))
             helper.setGone(R.id.textMainlandPubDate, true)
         } else {
             helper.setGone(R.id.textDouBanRating, true)

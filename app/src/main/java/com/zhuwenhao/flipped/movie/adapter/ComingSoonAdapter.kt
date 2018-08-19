@@ -29,7 +29,7 @@ class ComingSoonAdapter(data: List<Subject>) : BaseMultiItemQuickAdapter<Subject
     override fun convert(helper: BaseViewHolder, item: Subject) {
         when (helper.itemViewType) {
             Subject.TYPE_HEADER -> {
-
+                helper.setText(R.id.textHeader, item.mainlandDateForHeader)
             }
             Subject.TYPE_DATA -> {
                 Glide.with(mContext).load(item.images.large).into(helper.getView(R.id.imgCover))

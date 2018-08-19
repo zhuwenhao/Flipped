@@ -14,7 +14,12 @@ import com.zhuwenhao.flipped.movie.DouBanMovieApi
 import com.zhuwenhao.flipped.movie.adapter.ComingSoonAdapter
 import com.zhuwenhao.flipped.movie.entity.Movie
 import com.zhuwenhao.flipped.movie.entity.Subject
+import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_coming_soon.*
 
 class ComingSoonFragment : BaseLazyFragment() {
@@ -29,7 +34,6 @@ class ComingSoonFragment : BaseLazyFragment() {
     private val pageSize: Int = 20
 
     private lateinit var adapter: ComingSoonAdapter
-    private val comingSoonList: List<Subject> = ArrayList()
 
     override fun provideLayoutId(): Int {
         return R.layout.fragment_coming_soon
@@ -41,7 +45,7 @@ class ComingSoonFragment : BaseLazyFragment() {
             getComingSoon(true)
         }
 
-        adapter = ComingSoonAdapter(comingSoonList)
+        adapter = ComingSoonAdapter(ArrayList())
         adapter.setLoadMoreView(CustomLoadMoreView())
         adapter.setOnLoadMoreListener({
             getComingSoon(false)
@@ -73,25 +77,77 @@ class ComingSoonFragment : BaseLazyFragment() {
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(object : RxObserver<Movie>() {
                     override fun onSuccess(t: Movie) {
-                        for (subject in t.subjects) {
-                            subject.type = 2
-                        }
+                        formatComingSoon(isRefresh, t)
+                    }
 
+                    override fun onFailure(e: Exception) {
+                        Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
+                        if (isRefresh) {
+                            swipeRefreshLayout.isRefreshing = false
+                            adapter.setEnableLoadMore(true)
+                        } else {
+                            swipeRefreshLayout.isEnabled = true
+                            adapter.loadMoreFail()
+                        }
+                    }
+                })
+    }
+
+    private fun formatComingSoon(isRefresh: Boolean, movie: Movie) {
+        Observable.create(ObservableOnSubscribe<List<Subject>> { emitter ->
+            for (subject in movie.subjects) {
+                subject.mainlandDate = StringUtils.getMainlandDate(subject.pubDates)
+                subject.mainlandDateTime = StringUtils.getMainlandDateTime(subject.mainlandDate)
+                subject.mainlandDateForHeader = StringUtils.getMainlandDateForHeader(subject.mainlandDate, subject.mainlandDateTime)
+            }
+
+            val subjectList: MutableList<Subject> = ArrayList()
+
+            if (isRefresh) {
+                for ((index, subject) in movie.subjects.withIndex()) {
+                    if (index == 0 || movie.subjects[index - 1].mainlandDate != subject.mainlandDate) {
+                        subjectList.add(Subject(Subject.TYPE_HEADER, subject.mainlandDate, subject.mainlandDateTime, subject.mainlandDateForHeader, subject))
+                    }
+                    subjectList.add(Subject(Subject.TYPE_DATA, subject.mainlandDate, subject.mainlandDateTime, subject.mainlandDateForHeader, subject))
+                }
+            } else {
+                for ((index, subject) in movie.subjects.withIndex()) {
+                    if ((index == 0 && adapter.data[adapter.data.size - 1].mainlandDate != subject.mainlandDate) ||
+                            (index != 0 && movie.subjects[index - 1].mainlandDate != subject.mainlandDate)) {
+                        subjectList.add(Subject(Subject.TYPE_HEADER, subject.mainlandDate, subject.mainlandDateTime, subject.mainlandDateForHeader, subject))
+                    }
+                    subjectList.add(Subject(Subject.TYPE_DATA, subject.mainlandDate, subject.mainlandDateTime, subject.mainlandDateForHeader, subject))
+                }
+            }
+
+            emitter.onNext(subjectList)
+            emitter.onComplete()
+        }).compose(RxSchedulers.io2Main()).compose(bindUntilEvent(FragmentEvent.DESTROY))
+                .subscribe(object : Observer<List<Subject>> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+
+                    }
+
+                    override fun onNext(subjectList: List<Subject>) {
                         if (isRefresh) {
                             currentPage = 0
 
                             swipeRefreshLayout.isRefreshing = false
 
-                            adapter.setNewData(t.subjects)
+                            adapter.setNewData(subjectList)
                             adapter.setEnableLoadMore(true)
                         } else {
                             currentPage++
 
                             swipeRefreshLayout.isEnabled = true
 
-                            adapter.addData(t.subjects)
+                            adapter.addData(subjectList)
 
-                            if ((currentPage + 1) * pageSize >= t.total) {
+                            if ((currentPage + 1) * pageSize >= movie.total) {
                                 adapter.loadMoreEnd()
                             } else {
                                 adapter.loadMoreComplete()
@@ -99,7 +155,7 @@ class ComingSoonFragment : BaseLazyFragment() {
                         }
                     }
 
-                    override fun onFailure(e: Exception) {
+                    override fun onError(e: Throwable) {
                         Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
                         if (isRefresh) {
                             swipeRefreshLayout.isRefreshing = false

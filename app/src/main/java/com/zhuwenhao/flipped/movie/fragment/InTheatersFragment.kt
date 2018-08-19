@@ -13,6 +13,7 @@ import com.zhuwenhao.flipped.http.RxSchedulers
 import com.zhuwenhao.flipped.movie.DouBanMovieApi
 import com.zhuwenhao.flipped.movie.adapter.InTheatersAdapter
 import com.zhuwenhao.flipped.movie.entity.Movie
+import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.fragment_in_theaters.*
 
@@ -67,6 +68,10 @@ class InTheatersFragment : BaseLazyFragment() {
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(object : RxObserver<Movie>() {
                     override fun onSuccess(t: Movie) {
+                        for (subject in t.subjects) {
+                            subject.mainlandDateTime = StringUtils.getMainlandDateTime(StringUtils.getMainlandDate(subject.pubDates))
+                        }
+
                         if (isRefresh) {
                             currentPage = 0
 

@@ -3,7 +3,6 @@ package com.zhuwenhao.flipped.movie.entity
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 
 data class Subject(val rating: Rating,
                    val genres: List<String>,
@@ -33,8 +32,33 @@ data class Subject(val rating: Rating,
         return type
     }
 
-    val mainlandPubDateTime: DateTime
-        get() = if (mainlandPubDate.isEmpty()) DateTime(1995, 11, 10, 0, 0) else DateTime.parse(mainlandPubDate, DateTimeFormat.forPattern("yyyy-MM-dd"))
+    constructor(itemType: Int, mainlandDate: String, mainlandDateTime: DateTime, mainlandDateForHeader: String, subject: Subject) : this(subject.rating,
+            subject.genres,
+            subject.title,
+            subject.casts,
+            subject.durations,
+            subject.collectCount,
+            subject.mainlandPubDate,
+            subject.hasVideo,
+            subject.originalTitle,
+            subject.subtype,
+            subject.directors,
+            subject.pubDates,
+            subject.year,
+            subject.images,
+            subject.alt,
+            subject.id) {
+        type = itemType
+        this.mainlandDate = mainlandDate
+        this.mainlandDateTime = mainlandDateTime
+        this.mainlandDateForHeader = mainlandDateForHeader
+    }
+
+    var mainlandDate: String = ""
+
+    var mainlandDateTime: DateTime = DateTime(1995, 11, 10, 0, 0)
+
+    var mainlandDateForHeader: String = ""
 
     data class Rating(val max: Int,
                       val average: Double,
