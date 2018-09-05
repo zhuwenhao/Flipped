@@ -48,12 +48,12 @@ class StringUtils {
                 if (mainlandDate.length == 7)
                     mainlandDateTime.toString("M月") + " 待定"
                 else
-                    mainlandDateTime.toString("M月d日") + " " + mainlandDateTime.dayOfWeek().asShortText
+                    mainlandDateTime.toString("M月d日") + " " + mainlandDateTime.dayOfWeek().getAsShortText(Locale.CHINA)
             } else {
                 if (mainlandDate.length == 7)
                     mainlandDateTime.toString("yyyy年M月") + " 待定"
                 else
-                    mainlandDateTime.toString("yyyy年M月d日") + " " + mainlandDateTime.dayOfWeek().asShortText
+                    mainlandDateTime.toString("yyyy年M月d日") + " " + mainlandDateTime.dayOfWeek().getAsShortText(Locale.CHINA)
             }
         }
 
