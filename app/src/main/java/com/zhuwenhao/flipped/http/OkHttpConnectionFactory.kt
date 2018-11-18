@@ -23,7 +23,7 @@ class OkHttpConnectionFactory private constructor() {
                     .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS)
 
             if (BuildConfig.DEBUG) {
-                builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                builder.addInterceptor(HttpLoggingInterceptor(HttpLogger()).setLevel(HttpLoggingInterceptor.Level.BODY))
             }
 
             return builder.build()

@@ -3,6 +3,8 @@ package com.zhuwenhao.flipped.movie.fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 import com.trello.rxlifecycle2.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
@@ -15,6 +17,8 @@ import com.zhuwenhao.flipped.movie.adapter.InTheatersAdapter
 import com.zhuwenhao.flipped.movie.entity.Movie
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
+import com.zhuwenhao.flipped.view.callback.EmptyCallback
+import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import kotlinx.android.synthetic.main.fragment_in_theaters.*
 
 class InTheatersFragment : BaseLazyFragment() {
@@ -27,8 +31,11 @@ class InTheatersFragment : BaseLazyFragment() {
 
     private var currentPage: Int = 0
     private val pageSize: Int = 20
+    private var isFirst: Boolean = true
 
     private lateinit var adapter: InTheatersAdapter
+
+    private lateinit var loadService: LoadService<Any>
 
     override fun provideLayoutId(): Int {
         return R.layout.fragment_in_theaters
@@ -39,6 +46,9 @@ class InTheatersFragment : BaseLazyFragment() {
         swipeRefreshLayout.setOnRefreshListener {
             getInTheaters(true)
         }
+        swipeRefreshLayout.isEnabled = false
+
+        loadService = LoadSir.getDefault().register(recyclerView)
 
         adapter = InTheatersAdapter()
         adapter.setLoadMoreView(CustomLoadMoreView())
@@ -73,12 +83,23 @@ class InTheatersFragment : BaseLazyFragment() {
                         }
 
                         if (isRefresh) {
+                            if (isFirst) {
+                                isFirst = false
+                                swipeRefreshLayout.isEnabled = true
+                            }
+
                             currentPage = 0
 
                             swipeRefreshLayout.isRefreshing = false
 
                             adapter.setNewData(t.subjects)
                             adapter.setEnableLoadMore(true)
+
+                            if (t.subjects.isEmpty()) {
+                                loadService.showCallback(EmptyCallback::class.java)
+                            } else {
+                                loadService.showSuccess()
+                            }
                         } else {
                             currentPage++
 
@@ -97,6 +118,10 @@ class InTheatersFragment : BaseLazyFragment() {
                     override fun onFailure(e: Exception) {
                         Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
                         if (isRefresh) {
+                            if (isFirst) {
+                                swipeRefreshLayout.isEnabled = true
+                                loadService.showCallback(ErrorCallback::class.java)
+                            }
                             swipeRefreshLayout.isRefreshing = false
                             adapter.setEnableLoadMore(true)
                         } else {

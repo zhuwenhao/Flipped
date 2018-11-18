@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.zhuwenhao.flipped"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -16,6 +16,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    configurations.all {
+        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.support') {
+                if (!requested.name.startsWith("multidex")) {
+                    details.useVersion "$support_library_version"
+                }
+            }
         }
     }
 }
@@ -32,15 +42,19 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.41'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.42'
 
     implementation 'com.github.magiepooh:recycler-itemdecoration:1.1.2@aar'
 
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
 
+    implementation 'com.kingja.loadsir:loadsir:1.3.6'
+
     implementation("com.mikepenz:materialdrawer:6.0.9@aar") {
         transitive = true
     }
+
+    implementation 'com.orhanobut:logger:2.2.0'
 
     implementation 'com.oushangfeng:PinnedSectionItemDecoration:1.2.6'
 
@@ -57,8 +71,8 @@ dependencies {
 
     implementation 'com.wang.avi:library:2.1.3'
 
-    implementation 'net.danlew:android.joda:2.9.9.4'
+    implementation 'net.danlew:android.joda:2.10.1'
 
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
 }
