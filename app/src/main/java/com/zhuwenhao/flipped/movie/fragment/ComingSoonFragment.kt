@@ -1,7 +1,12 @@
 package com.zhuwenhao.flipped.movie.fragment
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 import com.oushangfeng.pinnedsectionitemdecoration.PinnedHeaderItemDecoration
 import com.trello.rxlifecycle2.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
@@ -16,6 +21,8 @@ import com.zhuwenhao.flipped.movie.entity.Movie
 import com.zhuwenhao.flipped.movie.entity.Subject
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
+import com.zhuwenhao.flipped.view.callback.EmptyCallback
+import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
@@ -32,8 +39,11 @@ class ComingSoonFragment : BaseLazyFragment() {
 
     private var currentPage: Int = 0
     private val pageSize: Int = 20
+    private var isFirst: Boolean = true
 
     private lateinit var adapter: ComingSoonAdapter
+
+    private lateinit var loadService: LoadService<Any>
 
     override fun provideLayoutId(): Int {
         return R.layout.fragment_coming_soon
@@ -44,8 +54,18 @@ class ComingSoonFragment : BaseLazyFragment() {
         swipeRefreshLayout.setOnRefreshListener {
             getComingSoon(true)
         }
+        swipeRefreshLayout.isEnabled = false
+
+        loadService = LoadSir.getDefault().register(recyclerView)
 
         adapter = ComingSoonAdapter(ArrayList())
+        adapter.setOnItemClickListener { adapter, _, position ->
+            try {
+                val subject = adapter.data[position] as Subject
+                startActivity(Intent(Constants.DOU_BAN_ACTION, Uri.parse("${Constants.DOU_BAN_SUBJECT_URL}${subject.id}/?from=showing")))
+            } catch (e: ActivityNotFoundException) {
+            }
+        }
         adapter.setLoadMoreView(CustomLoadMoreView())
         adapter.setOnLoadMoreListener({
             getComingSoon(false)
@@ -134,12 +154,23 @@ class ComingSoonFragment : BaseLazyFragment() {
 
                     override fun onNext(subjectList: List<Subject>) {
                         if (isRefresh) {
+                            if (isFirst) {
+                                isFirst = false
+                                swipeRefreshLayout.isEnabled = true
+                            }
+
                             currentPage = 0
 
                             swipeRefreshLayout.isRefreshing = false
 
                             adapter.setNewData(subjectList)
                             adapter.setEnableLoadMore(true)
+
+                            if (subjectList.isEmpty()) {
+                                loadService.showCallback(EmptyCallback::class.java)
+                            } else {
+                                loadService.showSuccess()
+                            }
                         } else {
                             currentPage++
 
@@ -158,6 +189,10 @@ class ComingSoonFragment : BaseLazyFragment() {
                     override fun onError(e: Throwable) {
                         Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
                         if (isRefresh) {
+                            if (isFirst) {
+                                swipeRefreshLayout.isEnabled = true
+                                loadService.showCallback(ErrorCallback::class.java)
+                            }
                             swipeRefreshLayout.isRefreshing = false
                             adapter.setEnableLoadMore(true)
                         } else {

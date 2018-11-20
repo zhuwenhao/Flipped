@@ -1,5 +1,8 @@
 package com.zhuwenhao.flipped.movie.fragment
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
@@ -15,6 +18,7 @@ import com.zhuwenhao.flipped.http.RxSchedulers
 import com.zhuwenhao.flipped.movie.DouBanMovieApi
 import com.zhuwenhao.flipped.movie.adapter.InTheatersAdapter
 import com.zhuwenhao.flipped.movie.entity.Movie
+import com.zhuwenhao.flipped.movie.entity.Subject
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
@@ -51,6 +55,13 @@ class InTheatersFragment : BaseLazyFragment() {
         loadService = LoadSir.getDefault().register(recyclerView)
 
         adapter = InTheatersAdapter()
+        adapter.setOnItemClickListener { adapter, _, position ->
+            try {
+                val subject = adapter.data[position] as Subject
+                startActivity(Intent(Constants.DOU_BAN_ACTION, Uri.parse("${Constants.DOU_BAN_SUBJECT_URL}${subject.id}/?from=showing")))
+            } catch (e: ActivityNotFoundException) {
+            }
+        }
         adapter.setLoadMoreView(CustomLoadMoreView())
         adapter.setOnLoadMoreListener({
             getInTheaters(false)
