@@ -9,5 +9,7 @@ class Constants {
         const val DOU_BAN_SUBJECT_URL: String = "https://movie.douban.com/subject/"
 
         const val BANDWAGON_API_URL: String = "https://api.64clouds.com/v1/"
+
+        const val SP_KEY_LAST_MOVIE_CITY: String = "last_movie_city"
     }
 }

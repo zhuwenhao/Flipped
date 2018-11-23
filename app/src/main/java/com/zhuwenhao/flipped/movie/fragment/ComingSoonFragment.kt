@@ -19,6 +19,7 @@ import com.zhuwenhao.flipped.movie.DouBanMovieApi
 import com.zhuwenhao.flipped.movie.adapter.ComingSoonAdapter
 import com.zhuwenhao.flipped.movie.entity.Movie
 import com.zhuwenhao.flipped.movie.entity.Subject
+import com.zhuwenhao.flipped.util.SPUtils
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
@@ -73,7 +74,7 @@ class ComingSoonFragment : BaseLazyFragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         recyclerView.addItemDecoration(PinnedHeaderItemDecoration.Builder(Subject.TYPE_HEADER)
-                .disableHeaderClick(false)
+                .disableHeaderClick(true)
                 .enableDivider(true)
                 .setDividerId(R.drawable.item_decoration_h_1)
                 .create())
@@ -92,7 +93,7 @@ class ComingSoonFragment : BaseLazyFragment() {
         }
 
         RetrofitFactory.newInstance(Constants.DOU_BAN_MOVIE_API_URL).create(DouBanMovieApi::class.java)
-                .getComingSoon("上海", if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
+                .getComingSoon(SPUtils.getLastMovieCity(mContext.applicationContext), if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
                 .compose(RxSchedulers.io2Main())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(object : RxObserver<Movie>() {
@@ -103,6 +104,11 @@ class ComingSoonFragment : BaseLazyFragment() {
                     override fun onFailure(e: Exception) {
                         Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
                         if (isRefresh) {
+                            if (isFirst) {
+                                isFirst = false
+                                swipeRefreshLayout.isEnabled = true
+                                loadService.showCallback(ErrorCallback::class.java)
+                            }
                             swipeRefreshLayout.isRefreshing = false
                             adapter.setEnableLoadMore(true)
                         } else {
@@ -164,7 +170,10 @@ class ComingSoonFragment : BaseLazyFragment() {
                             swipeRefreshLayout.isRefreshing = false
 
                             adapter.setNewData(subjectList)
-                            adapter.setEnableLoadMore(true)
+                            if (adapter.itemCount < pageSize)
+                                adapter.loadMoreEnd()
+                            else
+                                adapter.setEnableLoadMore(true)
 
                             if (subjectList.isEmpty()) {
                                 loadService.showCallback(EmptyCallback::class.java)
@@ -190,6 +199,7 @@ class ComingSoonFragment : BaseLazyFragment() {
                         Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
                         if (isRefresh) {
                             if (isFirst) {
+                                isFirst = false
                                 swipeRefreshLayout.isEnabled = true
                                 loadService.showCallback(ErrorCallback::class.java)
                             }

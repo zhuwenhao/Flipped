@@ -29,6 +29,10 @@
             android:name=".bandwagon.activity.BandwagonDetailActivity"
             android:label="@string/bandwagon"
             android:theme="@style/AppTheme.SubActivity" />
+        <activity
+            android:name=".movie.activity.SelectCityActivity"
+            android:label="@string/select_city"
+            android:theme="@style/AppTheme.SubActivity" />
     </application>
 
 </manifest>
