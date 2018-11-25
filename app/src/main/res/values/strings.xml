@@ -20,6 +20,9 @@
     <string name="item_directors">导演：%1$s</string>
     <string name="item_casts">演员：%1$s</string>
 
+    <string name="title">标题</string>
+    <string name="ve_id">VEID</string>
+    <string name="api_key">API KEY</string>
     <string name="hostname">主机名</string>
     <string name="vm_type">主机类型</string>
     <string name="node_location">所在地</string>

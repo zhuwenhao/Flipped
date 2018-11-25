@@ -1,6 +1,5 @@
 package com.zhuwenhao.flipped.bandwagon.activity
 
-import android.content.Intent
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseSubActivity
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -16,6 +15,6 @@ class BandwagonActivity : BaseSubActivity() {
     }
 
     override fun initData() {
-        startActivity(Intent(this, BandwagonDetailActivity::class.java))
+
     }
 }
