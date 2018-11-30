@@ -20,6 +20,8 @@
     <string name="item_directors">导演：%1$s</string>
     <string name="item_casts">演员：%1$s</string>
 
+    <string name="add_bandwagon">添加主机</string>
+    <string name="edit_bandwagon">编辑主机</string>
     <string name="title">标题</string>
     <string name="ve_id">VEID</string>
     <string name="api_key">API KEY</string>

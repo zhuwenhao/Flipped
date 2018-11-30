@@ -23,7 +23,8 @@ data class BandwagonInfo(@SerializedName("vm_type") val vmType: String,
                          @SerializedName("swap_total_kb") val swapTotalKB: Long,
                          @SerializedName("swap_available_kb") val swapAvailableKB: Long,
                          @SerializedName("ve_used_disk_space_b") val veUsedDiskSpaceB: Long,
-                         val error: Int) {
+                         val error: Int,
+                         val message: String) {
 
     val status: String
         get() = if (vmType == "kvm") veStatus else vzStatus.status

@@ -5,7 +5,10 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
+import android.view.View
 import com.jaeger.library.StatusBarUtil
+import com.kingja.loadsir.core.LoadService
+import com.kingja.loadsir.core.LoadSir
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
@@ -15,6 +18,8 @@ import com.zhuwenhao.flipped.R
 abstract class BaseSubActivity : RxAppCompatActivity() {
 
     protected lateinit var mContext: Context
+
+    protected lateinit var loadService: LoadService<Any>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +36,10 @@ abstract class BaseSubActivity : RxAppCompatActivity() {
     protected abstract fun initView()
 
     protected abstract fun initData()
+
+    protected fun initLoadSir(view: View) {
+        loadService = LoadSir.getDefault().register(view)
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {

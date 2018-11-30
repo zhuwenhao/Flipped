@@ -5,29 +5,37 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.bandwagon.BandwagonApi
+import com.zhuwenhao.flipped.bandwagon.entity.Bandwagon
 import com.zhuwenhao.flipped.bandwagon.entity.BandwagonInfo
 import com.zhuwenhao.flipped.base.BaseSubActivity
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
 import com.zhuwenhao.flipped.util.StringUtils
+import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import kotlinx.android.synthetic.main.activity_bandwagon_detail.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.joda.time.DateTime
 
 class BandwagonDetailActivity : BaseSubActivity() {
 
+    private lateinit var bandwagon: Bandwagon
+
     override fun provideLayoutId(): Int {
         return R.layout.activity_bandwagon_detail
     }
 
     override fun initView() {
+        bandwagon = intent.getSerializableExtra("bandwagon") as Bandwagon
+        toolbar.title = bandwagon.title
         setSupportActionBar(toolbar)
+
+        initLoadSir(scrollView)
     }
 
     override fun initData() {
         RetrofitFactory.newInstance(Constants.BANDWAGON_API_URL).create(BandwagonApi::class.java)
-                .getBandwagonInfo("", "")
+                .getBandwagonInfo(bandwagon.veId, bandwagon.apiKey)
                 .compose(RxSchedulers.io2Main())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(object : RxObserver<BandwagonInfo>() {
@@ -64,11 +72,17 @@ class BandwagonDetailActivity : BaseSubActivity() {
                             if (toolbar.menu.size() == 0) {
                                 toolbar.inflateMenu(R.menu.menu_bandwagon_detail)
                             }
+
+                            loadService.showSuccess()
+                        } else {
+                            Toast.makeText(mContext, t.message, Toast.LENGTH_SHORT).show()
+                            loadService.showCallback(ErrorCallback::class.java)
                         }
                     }
 
                     override fun onFailure(e: Exception) {
                         Toast.makeText(mContext, e.message, Toast.LENGTH_SHORT).show()
+                        loadService.showCallback(ErrorCallback::class.java)
                     }
                 })
     }
