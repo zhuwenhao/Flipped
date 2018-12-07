@@ -9,11 +9,12 @@ import com.trello.rxlifecycle2.android.ActivityEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseSubActivity
+import com.zhuwenhao.flipped.extension.getDefaultSp
+import com.zhuwenhao.flipped.extension.putString
 import com.zhuwenhao.flipped.http.RxSchedulers
 import com.zhuwenhao.flipped.movie.adapter.SelectCityAdapter
 import com.zhuwenhao.flipped.movie.entity.City
 import com.zhuwenhao.flipped.movie.entity.SelectCity
-import com.zhuwenhao.flipped.util.SPUtils
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
@@ -35,7 +36,7 @@ class SelectCityActivity : BaseSubActivity() {
 
         adapter = SelectCityAdapter(cityList)
         adapter.setOnItemClickListener { _, _, position ->
-            SPUtils.putString(applicationContext, Constants.SP_KEY_LAST_MOVIE_CITY, cityList[position].name)
+            getDefaultSp().putString(Constants.SP_KEY_LAST_MOVIE_CITY, cityList[position].name)
             setResult(Activity.RESULT_OK)
             finish()
         }
@@ -58,7 +59,7 @@ class SelectCityActivity : BaseSubActivity() {
             val json = assets.open("city.json").bufferedReader().use(BufferedReader::readText)
 
             val cities = Gson().fromJson<List<SelectCity>>(json, object : TypeToken<List<SelectCity>>() {}.type)
-            val lastMovieCity = SPUtils.getLastMovieCity(applicationContext)
+            val lastMovieCity = getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))
 
             cityList.clear()
             for (c in cities) {

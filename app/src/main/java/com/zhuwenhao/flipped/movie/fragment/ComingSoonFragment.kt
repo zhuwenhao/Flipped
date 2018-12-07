@@ -12,6 +12,7 @@ import com.trello.rxlifecycle2.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseLazyFragment
+import com.zhuwenhao.flipped.extension.getDefaultSp
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
@@ -19,7 +20,6 @@ import com.zhuwenhao.flipped.movie.DouBanMovieApi
 import com.zhuwenhao.flipped.movie.adapter.ComingSoonAdapter
 import com.zhuwenhao.flipped.movie.entity.Movie
 import com.zhuwenhao.flipped.movie.entity.Subject
-import com.zhuwenhao.flipped.util.SPUtils
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
@@ -93,7 +93,7 @@ class ComingSoonFragment : BaseLazyFragment() {
         }
 
         RetrofitFactory.newInstance(Constants.DOU_BAN_MOVIE_API_URL).create(DouBanMovieApi::class.java)
-                .getComingSoon(SPUtils.getLastMovieCity(mContext.applicationContext), if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
+                .getComingSoon(mContext.getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))!!, if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
                 .compose(RxSchedulers.io2Main())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(object : RxObserver<Movie>() {

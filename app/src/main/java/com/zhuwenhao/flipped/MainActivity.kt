@@ -19,11 +19,11 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.zhuwenhao.flipped.bandwagon.activity.BandwagonActivity
 import com.zhuwenhao.flipped.base.BaseActivity
+import com.zhuwenhao.flipped.extension.getDefaultSp
 import com.zhuwenhao.flipped.movie.activity.SelectCityActivity
 import com.zhuwenhao.flipped.movie.adapter.MoviePagerAdapter
 import com.zhuwenhao.flipped.movie.fragment.ComingSoonFragment
 import com.zhuwenhao.flipped.movie.fragment.InTheatersFragment
-import com.zhuwenhao.flipped.util.SPUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -112,7 +112,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         textCity = menu!!.findItem(R.id.menu_city).actionView as TextView
-        textCity.text = SPUtils.getLastMovieCity(applicationContext)
+        textCity.text = getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))
         textCity.setOnClickListener {
             startActivityForResult(Intent(this, SelectCityActivity::class.java), REQUEST_CODE_SELECT_CITY)
         }
@@ -122,7 +122,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_SELECT_CITY && resultCode == Activity.RESULT_OK) {
-            textCity.text = SPUtils.getLastMovieCity(applicationContext)
+            textCity.text = getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))
             invalidateOptionsMenu()
         }
     }
