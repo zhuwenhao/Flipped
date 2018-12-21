@@ -24,14 +24,14 @@ import com.zhuwenhao.flipped.movie.activity.SelectCityActivity
 import com.zhuwenhao.flipped.movie.adapter.MoviePagerAdapter
 import com.zhuwenhao.flipped.movie.fragment.ComingSoonFragment
 import com.zhuwenhao.flipped.movie.fragment.InTheatersFragment
+import com.zhuwenhao.flipped.rss.activity.RssActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
 
     companion object {
         private const val DRAWER_BANDWAGON = 1L
+        private const val DRAWER_RSS = 2L
 
         private const val REQUEST_CODE_SELECT_CITY = 101
     }
@@ -56,6 +56,14 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
                                 .withIdentifier(DRAWER_BANDWAGON)
                                 .withName(R.string.bandwagon)
                                 .withIcon(AppCompatResources.getDrawable(this, R.drawable.ic_bandwagon))
+                                .withIconTintingEnabled(true)
+                                .withSelectable(false)
+                )
+                .addDrawerItems(
+                        PrimaryDrawerItem()
+                                .withIdentifier(DRAWER_RSS)
+                                .withName(R.string.rss)
+                                .withIcon(AppCompatResources.getDrawable(this, R.drawable.ic_rss))
                                 .withIconTintingEnabled(true)
                                 .withSelectable(false)
                 )
@@ -88,6 +96,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
     override fun onItemClick(view: View?, position: Int, drawerItem: IDrawerItem<*, *>): Boolean {
         when (drawerItem.identifier) {
             DRAWER_BANDWAGON -> startActivity(Intent(this, BandwagonActivity::class.java))
+            DRAWER_RSS -> startActivity(Intent(this, RssActivity::class.java))
         }
         Handler().post { drawer.closeDrawer() }
         return false
@@ -106,7 +115,14 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
                 .setShortLabel(getString(R.string.bandwagon))
                 .setIntent(Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, BandwagonActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP))
                 .build()
-        shortcutManager.dynamicShortcuts = Arrays.asList(bandwagon)
+        val rss = ShortcutInfo.Builder(this, "rss")
+                .setIcon(Icon.createWithResource(this, R.drawable.ic_rss_shortcut))
+                .setDisabledMessage(getString(R.string.rss))
+                .setLongLabel(getString(R.string.rss))
+                .setShortLabel(getString(R.string.rss))
+                .setIntent(Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, RssActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP))
+                .build()
+        shortcutManager.dynamicShortcuts = arrayListOf(bandwagon, rss)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

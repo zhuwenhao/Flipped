@@ -33,6 +33,10 @@
             android:name=".movie.activity.SelectCityActivity"
             android:label="@string/select_city"
             android:theme="@style/AppTheme.SubActivity" />
+        <activity
+            android:name=".rss.activity.RssActivity"
+            android:label="@string/rss"
+            android:theme="@style/AppTheme.SubActivity" />
     </application>
 
 </manifest>

@@ -9,7 +9,7 @@
 
     <item
         android:bottom="@dimen/shortcut_icon_margin"
-        android:drawable="@drawable/ic_bandwagon_primary"
+        android:drawable="@drawable/ic_rss_primary"
         android:left="@dimen/shortcut_icon_margin"
         android:right="@dimen/shortcut_icon_margin"
         android:top="@dimen/shortcut_icon_margin" />
