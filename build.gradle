@@ -11,6 +11,7 @@ buildscript {
         glide_version = '4.8.0'
         retrofit_version = '2.4.0'
         rxlifecycle_version = '2.2.2'
+        objectbox_version = '2.3.0'
     }
     repositories {
         google()
@@ -19,6 +20,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'io.objectbox:objectbox-gradle-plugin:2.3.0'
     }
 }
 

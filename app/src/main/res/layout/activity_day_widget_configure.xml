@@ -7,16 +7,10 @@
 
     <include layout="@layout/layout_toolbar" />
 
-    <EditText
-        android:id="@+id/editTitle"
+    <fragment
+        android:id="@+id/content"
+        class="com.zhuwenhao.flipped.widget.DayWidgetConfigureFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="标题"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/btnCreate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Create" />
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

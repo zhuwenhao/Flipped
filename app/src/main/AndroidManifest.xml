@@ -4,6 +4,7 @@
     package="com.zhuwenhao.flipped">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".FlippedApp"
@@ -40,20 +41,20 @@
             android:theme="@style/AppTheme.SubActivity" />
 
         <activity
-            android:name=".time.TimeAppWidgetConfigureActivity"
+            android:name=".widget.DayWidgetConfigureActivity"
             android:theme="@style/AppTheme.SubActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".time.TimeAppWidgetProvider">
+        <receiver android:name=".widget.DayWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/time_appwidget_info" />
+                android:resource="@xml/widget_info_day" />
         </receiver>
     </application>
 

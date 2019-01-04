@@ -36,6 +36,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.android.support:appcompat-v7:$support_library_version"
     implementation "com.android.support:design:$support_library_version"
+    implementation "com.android.support:preference-v7:$support_library_version"
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "com.android.support.test:runner:$android_test_version"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$android_espresso_version"
@@ -72,6 +73,9 @@ dependencies {
     implementation "com.trello.rxlifecycle2:rxlifecycle:$rxlifecycle_version"
     implementation "com.trello.rxlifecycle2:rxlifecycle-components:$rxlifecycle_version"
 
+    debugImplementation "io.objectbox:objectbox-android-objectbrowser:$objectbox_version"
+    releaseImplementation "io.objectbox:objectbox-android:$objectbox_version"
+
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.3'
 
@@ -79,3 +83,5 @@ dependencies {
 
     implementation 'org.jetbrains.anko:anko-sqlite:0.10.8'
 }
+
+apply plugin: 'io.objectbox' //apply the plugin after the dependencies block

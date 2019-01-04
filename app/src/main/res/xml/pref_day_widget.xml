@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="title"
+        android:title="标题" />
+
+    <Preference
+        android:key="startDate"
+        android:title="开始日期" />
+
+    <PreferenceCategory android:title="样式">
+
+        <EditTextPreference
+            android:key="titleSize"
+            android:title="标题大小" />
+
+        <EditTextPreference
+            android:key="titleColor"
+            android:title="标题颜色" />
+    </PreferenceCategory>
+</PreferenceScreen>

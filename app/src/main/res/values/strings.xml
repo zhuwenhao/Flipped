@@ -47,4 +47,6 @@
     <string name="reboot">重启</string>
     <string name="kill">杀死</string>
     <string name="more">更多</string>
+
+    <string name="apply">应用</string>
 </resources>
