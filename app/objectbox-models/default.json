@@ -4,35 +4,77 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:2713427470167490007",
-      "lastPropertyId": "3:275790887216372417",
-      "name": "DateWidget",
+      "id": "3:1395345350511411676",
+      "lastPropertyId": "8:2856652436298828136",
+      "name": "DaysWidget",
       "properties": [
         {
-          "id": "1:2390672609461309870",
+          "id": "1:9012426258418205768",
           "name": "id"
         },
         {
-          "id": "2:6274999487379156607",
+          "id": "2:7070612608396721479",
+          "name": "widgetId"
+        },
+        {
+          "id": "3:1873360002081191796",
           "name": "title"
         },
         {
-          "id": "3:275790887216372417",
-          "name": "widgetId"
+          "id": "4:8688990534674830504",
+          "name": "startDate"
+        },
+        {
+          "id": "5:2629373017714885548",
+          "name": "titleSize"
+        },
+        {
+          "id": "6:716036296787541266",
+          "name": "titleColor"
+        },
+        {
+          "id": "7:8772825936492038328",
+          "name": "daysSize"
+        },
+        {
+          "id": "8:2856652436298828136",
+          "name": "daysColor"
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "1:2713427470167490007",
+  "lastEntityId": "3:1395345350511411676",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 4,
   "modelVersionParserMinimum": 4,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    2713427470167490007,
+    6733453954218781222
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    2390672609461309870,
+    6274999487379156607,
+    275790887216372417,
+    751505635418486945,
+    5569055520044705358,
+    5540202966608460738,
+    5827374759797792640,
+    3119014782859147937,
+    1864509575157858580,
+    7758162593245332915,
+    4264325449295538874,
+    2495002720929550878,
+    3027170634167639624,
+    4717844603885748557,
+    350808349133643546,
+    7608120170553386840,
+    6140394726438322769,
+    5539865003011820466
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

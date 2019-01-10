@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
         <item name="android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="android:datePickerDialogTheme">@style/MyDatePickerDialogTheme</item>
     </style>
 
     <style name="AppTheme.SubActivity">
@@ -26,5 +27,9 @@
         <item name="android:layout_width">80dp</item>
         <item name="android:layout_height">112dp</item>
         <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="MyDatePickerDialogTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/colorAccent</item>
     </style>
 </resources>

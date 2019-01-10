@@ -48,5 +48,21 @@
     <string name="kill">杀死</string>
     <string name="more">更多</string>
 
+    <string name="days_widget_label">天数</string>
     <string name="apply">应用</string>
+    <string name="start_date">开始日期</string>
+    <string name="style">样式</string>
+    <string name="title_size">标题大小</string>
+    <string name="title_color">标题颜色</string>
+    <string name="days_size">天数大小</string>
+    <string name="days_color">天数颜色</string>
+    <string name="days_widget_title_check_hint">请输入标题</string>
+    <string name="days_widget_days">第%1$d天</string>
+
+    <string name="hex_prefix">#</string>
+    <string name="a">A</string>
+    <string name="r">R</string>
+    <string name="g">G</string>
+    <string name="b">B</string>
+    <string name="zero">0</string>
 </resources>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:parentTag="android.widget.LinearLayout">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@drawable/bg_transparent_rect_repeat">
+
+        <View
+            android:id="@+id/viewARGB"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/textHexPrefix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hex_prefix"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textHexValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp">
+
+        <!-- Alpha -->
+
+        <TextView
+            android:id="@+id/textAlphaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/a"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/sbAlpha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textAlphaLabel"
+            android:layout_alignBottom="@id/textAlphaLabel"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/textAlpha"
+            android:layout_toEndOf="@id/textAlphaLabel"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textAlpha"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textAlphaLabel"
+            android:layout_alignBottom="@id/textAlphaLabel"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/zero"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <!-- Red -->
+
+        <TextView
+            android:id="@+id/textRedLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textAlphaLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/r"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/sbRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sbAlpha"
+            android:layout_alignTop="@id/textRedLabel"
+            android:layout_alignEnd="@id/sbAlpha"
+            android:layout_alignBottom="@id/textRedLabel"
+            android:layout_toStartOf="@id/textRed"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textRed"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textRedLabel"
+            android:layout_alignBottom="@id/textRedLabel"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/zero"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <!-- Green -->
+
+        <TextView
+            android:id="@+id/textGreenLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textRedLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/g"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/sbGreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sbAlpha"
+            android:layout_alignTop="@id/textGreenLabel"
+            android:layout_alignEnd="@id/sbAlpha"
+            android:layout_alignBottom="@id/textGreenLabel"
+            android:layout_toStartOf="@id/textGreen"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textGreen"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textGreenLabel"
+            android:layout_alignBottom="@id/textGreenLabel"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/zero"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <!-- Blue -->
+
+        <TextView
+            android:id="@+id/textBlueLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textGreenLabel"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/b"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+
+        <SeekBar
+            android:id="@+id/sbBlue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/sbAlpha"
+            android:layout_alignTop="@id/textBlueLabel"
+            android:layout_alignEnd="@id/sbAlpha"
+            android:layout_alignBottom="@id/textBlueLabel"
+            android:layout_toStartOf="@id/textBlue"
+            android:max="255" />
+
+        <TextView
+            android:id="@+id/textBlue"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/textBlueLabel"
+            android:layout_alignBottom="@id/textBlueLabel"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="@string/zero"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</merge>

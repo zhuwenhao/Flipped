@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="prefTitle"
+        android:title="@string/title" />
+
+    <Preference
+        android:key="prefStartDate"
+        android:title="@string/start_date" />
+
+    <PreferenceCategory android:title="@string/style">
+
+        <Preference
+            android:key="prefTitleSize"
+            android:title="@string/title_size" />
+
+        <Preference
+            android:key="prefTitleColor"
+            android:title="@string/title_color" />
+
+        <Preference
+            android:key="prefDaysSize"
+            android:title="@string/days_size" />
+
+        <Preference
+            android:key="prefDaysColor"
+            android:title="@string/days_color" />
+    </PreferenceCategory>
+</PreferenceScreen>

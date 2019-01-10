@@ -41,20 +41,23 @@
             android:theme="@style/AppTheme.SubActivity" />
 
         <activity
-            android:name=".widget.DayWidgetConfigureActivity"
+            android:name=".widget.DaysWidgetConfigureActivity"
+            android:label="@string/days_widget_label"
             android:theme="@style/AppTheme.SubActivity">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 
-        <receiver android:name=".widget.DayWidgetProvider">
+        <receiver
+            android:name=".widget.DaysWidgetProvider"
+            android:label="@string/days_widget_label">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info_day" />
+                android:resource="@xml/widget_info_days" />
         </receiver>
     </application>
 
