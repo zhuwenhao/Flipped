@@ -66,9 +66,11 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         prefStartDate.summary = DateTime.now().toString("yyyy-MM-dd")
         prefStartDate.setOnPreferenceClickListener {
             val dateTime = DateTime.parse(it.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd"))
-            DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            val dialog = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 it.summary = DateTime(year, month + 1, dayOfMonth, 0, 0).toString("yyyy-MM-dd")
-            }, dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth).show()
+            }, dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
+            dialog.datePicker.maxDate = System.currentTimeMillis()
+            dialog.show()
 
             true
         }
