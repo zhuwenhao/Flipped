@@ -13,6 +13,7 @@ import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseLazyFragment
 import com.zhuwenhao.flipped.extension.getDefaultSp
+import com.zhuwenhao.flipped.extension.getStringX
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
@@ -85,7 +86,7 @@ class InTheatersFragment : BaseLazyFragment() {
         }
 
         RetrofitFactory.newInstance(Constants.DOU_BAN_MOVIE_API_URL).create(DouBanMovieApi::class.java)
-                .getInTheaters(mContext.getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))!!, if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
+                .getInTheaters(mContext.getDefaultSp().getStringX(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.shanghai)), if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
                 .compose(RxSchedulers.io2Main())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(object : RxObserver<Movie>() {

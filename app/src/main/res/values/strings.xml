@@ -10,8 +10,11 @@
     <string name="load_more_fail">加载失败，点击重试</string>
     <string name="the_end">THE END</string>
 
-    <string name="select_city">选择城市</string>
-    <string name="default_movie_city">上海</string>
+    <string name="beijing">北京</string>
+    <string name="shanghai">上海</string>
+    <string name="guangzhou">广州</string>
+    <string name="shenzhen">深圳</string>
+    <string name="shaoyang">邵阳</string>
 
     <string name="dou_ban_rating">豆瓣评分</string>
     <string name="no_rating">暂无评分</string>

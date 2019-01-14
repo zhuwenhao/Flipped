@@ -1,6 +1,5 @@
 package com.zhuwenhao.flipped
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -11,8 +10,8 @@ import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v7.content.res.AppCompatResources
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -20,7 +19,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.zhuwenhao.flipped.bandwagon.activity.BandwagonActivity
 import com.zhuwenhao.flipped.base.BaseActivity
 import com.zhuwenhao.flipped.extension.getDefaultSp
-import com.zhuwenhao.flipped.movie.activity.SelectCityActivity
+import com.zhuwenhao.flipped.extension.putString
 import com.zhuwenhao.flipped.movie.adapter.MoviePagerAdapter
 import com.zhuwenhao.flipped.movie.fragment.ComingSoonFragment
 import com.zhuwenhao.flipped.movie.fragment.InTheatersFragment
@@ -32,12 +31,10 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
     companion object {
         private const val DRAWER_BANDWAGON = 1L
         private const val DRAWER_RSS = 2L
-
-        private const val REQUEST_CODE_SELECT_CITY = 101
     }
 
     private lateinit var drawer: Drawer
-    private lateinit var textCity: TextView
+    private lateinit var menuCity: MenuItem
 
     override fun provideLayoutId(): Int {
         return R.layout.activity_main
@@ -125,22 +122,30 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
         shortcutManager.dynamicShortcuts = arrayListOf(bandwagon, rss)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        textCity = menu!!.findItem(R.id.menu_city).actionView as TextView
-        textCity.text = getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))
-        textCity.setOnClickListener {
-            startActivityForResult(Intent(this, SelectCityActivity::class.java), REQUEST_CODE_SELECT_CITY)
+        menuCity = menu.findItem(R.id.menu_city)
+        menuCity.title = getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, menuCity.title.toString())
+        for (i in 0 until menuCity.subMenu.size()) {
+            if (menuCity.title == menuCity.subMenu.getItem(i).title) {
+                menuCity.subMenu.getItem(i).isChecked = true
+                break
+            }
         }
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_SELECT_CITY && resultCode == Activity.RESULT_OK) {
-            textCity.text = getDefaultSp().getString(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.default_movie_city))
-            invalidateOptionsMenu()
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_beijing, R.id.menu_shanghai, R.id.menu_guangzhou, R.id.menu_shenzhen,
+            R.id.menu_shaoyang -> {
+                item.isChecked = true
+                menuCity.title = item.title
+                getDefaultSp().putString(Constants.SP_KEY_LAST_MOVIE_CITY, item.title.toString())
+                return true
+            }
         }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onBackPressed() {

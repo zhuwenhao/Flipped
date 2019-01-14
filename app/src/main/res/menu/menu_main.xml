@@ -4,7 +4,33 @@
 
     <item
         android:id="@+id/menu_city"
-        android:title="@string/select_city"
-        app:actionLayout="@layout/layout_menu_city"
-        app:showAsAction="always" />
+        android:title="@string/shanghai"
+        app:showAsAction="always">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/menu_beijing"
+                    android:title="@string/beijing" />
+
+                <item
+                    android:id="@+id/menu_shanghai"
+                    android:title="@string/shanghai" />
+
+                <item
+                    android:id="@+id/menu_guangzhou"
+                    android:title="@string/guangzhou" />
+
+                <item
+                    android:id="@+id/menu_shenzhen"
+                    android:title="@string/shenzhen" />
+
+                <item
+                    android:id="@+id/menu_shaoyang"
+                    android:title="@string/shaoyang" />
+            </group>
+        </menu>
+    </item>
 </menu>
