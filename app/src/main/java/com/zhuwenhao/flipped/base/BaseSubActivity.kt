@@ -3,9 +3,9 @@ package com.zhuwenhao.flipped.base
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.jaeger.library.StatusBarUtil
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir

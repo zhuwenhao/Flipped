@@ -4,13 +4,13 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
-import android.support.annotation.AttrRes
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.annotation.AttrRes
 import com.zhuwenhao.flipped.R
 
 class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), SeekBar.OnSeekBarChangeListener {

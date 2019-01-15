@@ -7,11 +7,11 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Build
 import android.os.Handler
-import android.support.v4.app.Fragment
-import android.support.v7.content.res.AppCompatResources
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.fragment.app.Fragment
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -48,6 +48,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
                 .withActionBarDrawerToggleAnimated(true)
                 .withCloseOnClick(false)
                 .withHeader(R.layout.layout_drawer_header)
+                .withHeaderDivider(false)
                 .addDrawerItems(
                         PrimaryDrawerItem()
                                 .withIdentifier(DRAWER_BANDWAGON)

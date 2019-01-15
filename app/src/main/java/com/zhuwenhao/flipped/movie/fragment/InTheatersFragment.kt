@@ -3,8 +3,8 @@ package com.zhuwenhao.flipped.movie.fragment
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir

@@ -7,13 +7,13 @@ import android.appwidget.AppWidgetManager
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceFragmentCompat
 import android.text.InputType
 import android.util.TypedValue
 import android.view.MenuItem
 import android.widget.RemoteViews
 import android.widget.Toast
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.db.ObjectBox

@@ -3,13 +3,13 @@ package com.zhuwenhao.flipped.bandwagon.activity
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.AutoCompleteTextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.internal.MDButton
