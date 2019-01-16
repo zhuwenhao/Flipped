@@ -1,4 +1,4 @@
-package com.zhuwenhao.flipped.extension
+package com.zhuwenhao.flipped.ext
 
 import android.content.SharedPreferences
 

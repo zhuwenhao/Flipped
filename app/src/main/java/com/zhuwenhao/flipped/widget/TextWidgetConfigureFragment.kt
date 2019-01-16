@@ -16,6 +16,7 @@ import androidx.preference.PreferenceFragmentCompat
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.db.ObjectBox
+import com.zhuwenhao.flipped.ext.toColorHex
 import com.zhuwenhao.flipped.view.ColorChooserView
 import io.objectbox.Box
 
@@ -24,8 +25,11 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     private lateinit var prefTitle: Preference
     private lateinit var prefTitleSize: Preference
     private lateinit var prefTitleColor: Preference
+    private lateinit var prefAlignment: Preference
 
     private lateinit var textSizeList: Array<CharSequence>
+    private lateinit var textAlignmentList: Array<CharSequence>
+    private var textAlignment = 4
 
     private lateinit var twBox: Box<TextWidget>
 
@@ -65,9 +69,37 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
         }
 
         prefTitleColor = findPreference("prefTitleColor")
-        prefTitleColor.summary = "#${Integer.toHexString(Color.WHITE).toUpperCase()}"
+        prefTitleColor.summary = Color.WHITE.toColorHex()
         prefTitleColor.setOnPreferenceClickListener {
             showColorChooserDialog(it)
+
+            true
+        }
+
+        textAlignmentList = context!!.resources.getTextArray(R.array.pref_list_text_alignment)
+
+        prefAlignment = findPreference("prefAlignment")
+        prefAlignment.summary = textAlignmentList[textAlignment]
+        prefAlignment.setOnPreferenceClickListener {
+            var selectedIndex = 0
+            for ((index, value) in textAlignmentList.withIndex()) {
+                if (value == it.summary) {
+                    selectedIndex = index
+                    break
+                }
+            }
+
+            MaterialDialog.Builder(context!!)
+                    .title(it.title)
+                    .items(R.array.pref_list_text_alignment)
+                    .itemsCallbackSingleChoice(selectedIndex) { _, _, which, text ->
+                        textAlignment = which
+                        it.summary = text
+
+                        true
+                    }
+                    .negativeText(android.R.string.cancel)
+                    .show()
 
             true
         }
@@ -80,9 +112,11 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
         textWidget = twBox.query().equal(TextWidget_.widgetId, widgetId.toLong()).build().findFirst()
 
         if (textWidget != null) {
-            prefTitle.summary = textWidget?.title
-            prefTitleSize.summary = textWidget?.titleSize
-            prefTitleColor.summary = textWidget?.titleColor
+            prefTitle.summary = textWidget!!.title
+            prefTitleSize.summary = textWidget!!.titleSize
+            prefTitleColor.summary = textWidget!!.titleColor
+            prefAlignment.summary = textAlignmentList[textWidget!!.textAlignment]
+            textAlignment = textWidget!!.textAlignment
         }
     }
 
@@ -114,7 +148,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
                 .positiveText(android.R.string.ok)
                 .negativeText(android.R.string.cancel)
                 .onPositive { dialog, _ ->
-                    preference.summary = "#${Integer.toHexString((dialog.customView as ColorChooserView).color).toUpperCase()}"
+                    preference.summary = (dialog.customView as ColorChooserView).color.toColorHex()
                 }
                 .build()
         (dialog.customView as ColorChooserView).setColorARGB(Color.parseColor(preference.summary.toString()))
@@ -132,11 +166,13 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
                         twBox.put(TextWidget(widgetId = widgetId,
                                 title = prefTitle.summary.toString(),
                                 titleSize = prefTitleSize.summary.toString(),
-                                titleColor = prefTitleColor.summary.toString()))
+                                titleColor = prefTitleColor.summary.toString(),
+                                textAlignment = textAlignment))
                     } else {
                         textWidget?.title = prefTitle.summary.toString()
                         textWidget?.titleSize = prefTitleSize.summary.toString()
                         textWidget?.titleColor = prefTitleColor.summary.toString()
+                        textWidget?.textAlignment = textAlignment
                         twBox.put(textWidget!!)
                     }
                     updateWidgetUI()
@@ -152,8 +188,19 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         val pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val views = RemoteViews(context!!.packageName, R.layout.widget_text)
-        views.setOnClickPendingIntent(R.id.content, pendingIntent)
+        val views = RemoteViews(context!!.packageName, when (textAlignment) {
+            0 -> R.layout.widget_text_top_left
+            1 -> R.layout.widget_text_top_right
+            2 -> R.layout.widget_text_bottom_left
+            3 -> R.layout.widget_text_bottom_right
+            4 -> R.layout.widget_text_center
+            5 -> R.layout.widget_text_center_top
+            6 -> R.layout.widget_text_center_bottom
+            7 -> R.layout.widget_text_center_left
+            8 -> R.layout.widget_text_center_right
+            else -> R.layout.widget_text_center
+        })
+        views.setOnClickPendingIntent(R.id.textTitle, pendingIntent)
         views.setTextViewText(R.id.textTitle, prefTitle.summary.toString())
         views.setTextViewTextSize(R.id.textTitle, TypedValue.COMPLEX_UNIT_SP, prefTitleSize.summary.toString().toFloat())
         views.setTextColor(R.id.textTitle, Color.parseColor(prefTitleColor.summary.toString()))

@@ -18,8 +18,8 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.zhuwenhao.flipped.bandwagon.activity.BandwagonActivity
 import com.zhuwenhao.flipped.base.BaseActivity
-import com.zhuwenhao.flipped.extension.getDefaultSp
-import com.zhuwenhao.flipped.extension.putString
+import com.zhuwenhao.flipped.ext.getDefaultSp
+import com.zhuwenhao.flipped.ext.putString
 import com.zhuwenhao.flipped.movie.adapter.MoviePagerAdapter
 import com.zhuwenhao.flipped.movie.fragment.ComingSoonFragment
 import com.zhuwenhao.flipped.movie.fragment.InTheatersFragment

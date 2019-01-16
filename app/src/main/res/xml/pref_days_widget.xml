@@ -26,5 +26,9 @@
         <Preference
             android:key="prefDaysColor"
             android:title="@string/days_color" />
+
+        <Preference
+            android:key="prefAlignment"
+            android:title="@string/alignment" />
     </PreferenceCategory>
 </PreferenceScreen>

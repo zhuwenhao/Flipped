@@ -11,4 +11,5 @@ data class DaysWidget(@Id var id: Long = 0,
                       var titleSize: String,
                       var titleColor: String,
                       var daysSize: String,
-                      var daysColor: String)
+                      var daysColor: String,
+                      var textAlignment: Int)

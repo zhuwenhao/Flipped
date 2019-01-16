@@ -9,4 +9,16 @@
         <item>20</item>
         <item>22</item>
     </string-array>
+
+    <string-array name="pref_list_text_alignment">
+        <item>@string/top_left</item>
+        <item>@string/top_right</item>
+        <item>@string/bottom_left</item>
+        <item>@string/bottom_right</item>
+        <item>@string/center</item>
+        <item>@string/center_top</item>
+        <item>@string/center_bottom</item>
+        <item>@string/center_left</item>
+        <item>@string/center_right</item>
+    </string-array>
 </resources>

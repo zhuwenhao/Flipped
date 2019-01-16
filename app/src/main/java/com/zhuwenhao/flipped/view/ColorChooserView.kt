@@ -12,11 +12,11 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.AttrRes
 import com.zhuwenhao.flipped.R
+import com.zhuwenhao.flipped.ext.toColorHex
 
 class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs), SeekBar.OnSeekBarChangeListener {
 
     private lateinit var viewARGB: View
-    private lateinit var textHexPrefix: TextView
     private lateinit var textHexValue: TextView
 
     private lateinit var sbAlpha: SeekBar
@@ -43,7 +43,6 @@ class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLa
 
     private fun initView() {
         viewARGB = findViewById(R.id.viewARGB)
-        textHexPrefix = findViewById(R.id.textHexPrefix)
         textHexValue = findViewById(R.id.textHexValue)
         sbAlpha = findViewById(R.id.sbAlpha)
         textAlpha = findViewById(R.id.textAlpha)
@@ -81,10 +80,9 @@ class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLa
 
         color = Color.argb(sbAlpha.progress, sbRed.progress, sbGreen.progress, sbBlue.progress)
         viewARGB.background = ColorDrawable(color)
-        textHexValue.text = color.hexValue()
+        textHexValue.text = color.toColorHex()
 
         val tintColor = tintColor(color)
-        textHexPrefix.setTextColor(tintColor)
         textHexValue.setTextColor(tintColor)
     }
 
@@ -103,12 +101,6 @@ class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLa
         } finally {
             a.recycle()
         }
-    }
-
-    private fun Int.hexValue() = if (this == 0) {
-        "00000000"
-    } else {
-        Integer.toHexString(this).toUpperCase()
     }
 
     private fun Int.isColorDark(threshold: Double = 0.5): Boolean {

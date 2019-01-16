@@ -14,5 +14,9 @@
         <Preference
             android:key="prefTitleColor"
             android:title="@string/title_color" />
+
+        <Preference
+            android:key="prefAlignment"
+            android:title="@string/alignment" />
     </PreferenceCategory>
 </PreferenceScreen>

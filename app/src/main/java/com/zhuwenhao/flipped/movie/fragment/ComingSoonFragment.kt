@@ -12,8 +12,8 @@ import com.trello.rxlifecycle2.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseLazyFragment
-import com.zhuwenhao.flipped.extension.getDefaultSp
-import com.zhuwenhao.flipped.extension.getStringX
+import com.zhuwenhao.flipped.ext.getDefaultSp
+import com.zhuwenhao.flipped.ext.getStringX
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers

@@ -8,4 +8,5 @@ data class TextWidget(@Id var id: Long = 0,
                       val widgetId: Int,
                       var title: String,
                       var titleSize: String,
-                      var titleColor: String)
+                      var titleColor: String,
+                      var textAlignment: Int)

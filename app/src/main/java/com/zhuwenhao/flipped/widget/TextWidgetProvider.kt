@@ -29,8 +29,19 @@ class TextWidgetProvider : AppWidgetProvider() {
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
                     val pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                    val views = RemoteViews(context.packageName, R.layout.widget_text)
-                    views.setOnClickPendingIntent(R.id.content, pendingIntent)
+                    val views = RemoteViews(context.packageName, when (tw.textAlignment) {
+                        0 -> R.layout.widget_text_top_left
+                        1 -> R.layout.widget_text_top_right
+                        2 -> R.layout.widget_text_bottom_left
+                        3 -> R.layout.widget_text_bottom_right
+                        4 -> R.layout.widget_text_center
+                        5 -> R.layout.widget_text_center_top
+                        6 -> R.layout.widget_text_center_bottom
+                        7 -> R.layout.widget_text_center_left
+                        8 -> R.layout.widget_text_center_right
+                        else -> R.layout.widget_text_center
+                    })
+                    views.setOnClickPendingIntent(R.id.textTitle, pendingIntent)
                     views.setTextViewText(R.id.textTitle, tw.title)
                     views.setTextViewTextSize(R.id.textTitle, TypedValue.COMPLEX_UNIT_SP, tw.titleSize.toFloat())
                     views.setTextColor(R.id.textTitle, Color.parseColor(tw.titleColor))

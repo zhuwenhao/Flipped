@@ -3,7 +3,7 @@ package com.zhuwenhao.flipped.util
 import android.content.Context
 import com.zhuwenhao.flipped.bandwagon.entity.Bandwagon
 import com.zhuwenhao.flipped.db.BandwagonTable
-import com.zhuwenhao.flipped.extension.database
+import com.zhuwenhao.flipped.ext.database
 import org.jetbrains.anko.db.classParser
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select

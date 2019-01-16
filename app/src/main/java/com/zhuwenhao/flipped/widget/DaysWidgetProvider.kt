@@ -33,7 +33,18 @@ class DaysWidgetProvider : AppWidgetProvider() {
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
                     val pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-                    val views = RemoteViews(context.packageName, R.layout.widget_days)
+                    val views = RemoteViews(context.packageName, when (dw.textAlignment) {
+                        0 -> R.layout.widget_days_top_left
+                        1 -> R.layout.widget_days_top_right
+                        2 -> R.layout.widget_days_bottom_left
+                        3 -> R.layout.widget_days_bottom_right
+                        4 -> R.layout.widget_days_center
+                        5 -> R.layout.widget_days_center_top
+                        6 -> R.layout.widget_days_center_bottom
+                        7 -> R.layout.widget_days_center_left
+                        8 -> R.layout.widget_days_center_right
+                        else -> R.layout.widget_days_center
+                    })
                     views.setOnClickPendingIntent(R.id.content, pendingIntent)
                     views.setTextViewText(R.id.textTitle, dw.title)
                     views.setTextViewTextSize(R.id.textTitle, TypedValue.COMPLEX_UNIT_SP, dw.titleSize.toFloat())

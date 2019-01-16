@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:configure="com.zhuwenhao.flipped.widget.DaysWidgetConfigureActivity"
-    android:initialLayout="@layout/widget_days"
+    android:initialLayout="@layout/widget_days_center"
     android:minWidth="40dp"
     android:minHeight="40dp"
     android:previewImage="@drawable/widget_days_preview_image"
