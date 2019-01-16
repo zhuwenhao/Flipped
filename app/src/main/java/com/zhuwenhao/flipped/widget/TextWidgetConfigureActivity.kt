@@ -6,12 +6,12 @@ import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseSubActivity
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
-class DaysWidgetConfigureActivity : BaseSubActivity() {
+class TextWidgetConfigureActivity : BaseSubActivity() {
 
-    private val child by lazy { supportFragmentManager.findFragmentById(R.id.content) as DaysWidgetConfigureFragment }
+    private val child by lazy { supportFragmentManager.findFragmentById(R.id.content) as TextWidgetConfigureFragment }
 
     override fun provideLayoutId(): Int {
-        return R.layout.activity_days_widget_configure
+        return R.layout.activity_text_widget_configure
     }
 
     override fun initView() {

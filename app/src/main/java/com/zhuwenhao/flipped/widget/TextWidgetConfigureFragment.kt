@@ -1,7 +1,6 @@
 package com.zhuwenhao.flipped.widget
 
 import android.app.Activity
-import android.app.DatePickerDialog
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.content.Intent
@@ -19,29 +18,22 @@ import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.db.ObjectBox
 import com.zhuwenhao.flipped.view.ColorChooserView
 import io.objectbox.Box
-import org.joda.time.DateTime
-import org.joda.time.Period
-import org.joda.time.PeriodType
-import org.joda.time.format.DateTimeFormat
 
-class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
+class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
 
     private lateinit var prefTitle: Preference
-    private lateinit var prefStartDate: Preference
     private lateinit var prefTitleSize: Preference
     private lateinit var prefTitleColor: Preference
-    private lateinit var prefDaysSize: Preference
-    private lateinit var prefDaysColor: Preference
 
     private lateinit var textSizeList: Array<CharSequence>
 
-    private lateinit var dwBox: Box<DaysWidget>
+    private lateinit var twBox: Box<TextWidget>
 
     private var widgetId = 0
-    private var daysWidget: DaysWidget? = null
+    private var textWidget: TextWidget? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.pref_days_widget)
+        addPreferencesFromResource(R.xml.pref_text_widget)
         initPref()
         initData()
     }
@@ -58,19 +50,6 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
                     .positiveText(android.R.string.ok)
                     .negativeText(android.R.string.cancel)
                     .show()
-
-            true
-        }
-
-        prefStartDate = findPreference("prefStartDate")
-        prefStartDate.summary = DateTime.now().toString("yyyy-MM-dd")
-        prefStartDate.setOnPreferenceClickListener {
-            val dateTime = DateTime.parse(it.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd"))
-            val dialog = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
-                it.summary = DateTime(year, month + 1, dayOfMonth, 0, 0).toString("yyyy-MM-dd")
-            }, dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
-            dialog.datePicker.maxDate = System.currentTimeMillis()
-            dialog.show()
 
             true
         }
@@ -92,37 +71,18 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
 
             true
         }
-
-        prefDaysSize = findPreference("prefDaysSize")
-        prefDaysSize.summary = textSizeList[1]
-        prefDaysSize.setOnPreferenceClickListener {
-            showTextSizeSingleChoiceDialog(it)
-
-            true
-        }
-
-        prefDaysColor = findPreference("prefDaysColor")
-        prefDaysColor.summary = "#${Integer.toHexString(Color.WHITE).toUpperCase()}"
-        prefDaysColor.setOnPreferenceClickListener {
-            showColorChooserDialog(it)
-
-            true
-        }
     }
 
     private fun initData() {
         widgetId = requireActivity().intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
 
-        dwBox = ObjectBox.boxStore.boxFor(DaysWidget::class.java)
-        daysWidget = dwBox.query().equal(DaysWidget_.widgetId, widgetId.toLong()).build().findFirst()
+        twBox = ObjectBox.boxStore.boxFor(TextWidget::class.java)
+        textWidget = twBox.query().equal(TextWidget_.widgetId, widgetId.toLong()).build().findFirst()
 
-        if (daysWidget != null) {
-            prefTitle.summary = daysWidget?.title
-            prefStartDate.summary = daysWidget?.startDate
-            prefTitleSize.summary = daysWidget?.titleSize
-            prefTitleColor.summary = daysWidget?.titleColor
-            prefDaysSize.summary = daysWidget?.daysSize
-            prefDaysColor.summary = daysWidget?.daysColor
+        if (textWidget != null) {
+            prefTitle.summary = textWidget?.title
+            prefTitleSize.summary = textWidget?.titleSize
+            prefTitleColor.summary = textWidget?.titleColor
         }
     }
 
@@ -168,22 +128,16 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
                 if (prefTitle.summary == null) {
                     Toast.makeText(context, R.string.widget_title_check_hint, Toast.LENGTH_SHORT).show()
                 } else {
-                    if (daysWidget == null) {
-                        dwBox.put(DaysWidget(widgetId = widgetId,
+                    if (textWidget == null) {
+                        twBox.put(TextWidget(widgetId = widgetId,
                                 title = prefTitle.summary.toString(),
-                                startDate = prefStartDate.summary.toString(),
                                 titleSize = prefTitleSize.summary.toString(),
-                                titleColor = prefTitleColor.summary.toString(),
-                                daysSize = prefDaysSize.summary.toString(),
-                                daysColor = prefDaysColor.summary.toString()))
+                                titleColor = prefTitleColor.summary.toString()))
                     } else {
-                        daysWidget?.title = prefTitle.summary.toString()
-                        daysWidget?.startDate = prefStartDate.summary.toString()
-                        daysWidget?.titleSize = prefTitleSize.summary.toString()
-                        daysWidget?.titleColor = prefTitleColor.summary.toString()
-                        daysWidget?.daysSize = prefDaysSize.summary.toString()
-                        daysWidget?.daysColor = prefDaysColor.summary.toString()
-                        dwBox.put(daysWidget!!)
+                        textWidget?.title = prefTitle.summary.toString()
+                        textWidget?.titleSize = prefTitleSize.summary.toString()
+                        textWidget?.titleColor = prefTitleColor.summary.toString()
+                        twBox.put(textWidget!!)
                     }
                     updateWidgetUI()
                 }
@@ -194,18 +148,15 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun updateWidgetUI() {
-        val intent = Intent(context, DaysWidgetConfigureActivity::class.java)
+        val intent = Intent(context, TextWidgetConfigureActivity::class.java)
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         val pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val views = RemoteViews(context!!.packageName, R.layout.widget_days)
+        val views = RemoteViews(context!!.packageName, R.layout.widget_text)
         views.setOnClickPendingIntent(R.id.content, pendingIntent)
         views.setTextViewText(R.id.textTitle, prefTitle.summary.toString())
         views.setTextViewTextSize(R.id.textTitle, TypedValue.COMPLEX_UNIT_SP, prefTitleSize.summary.toString().toFloat())
         views.setTextColor(R.id.textTitle, Color.parseColor(prefTitleColor.summary.toString()))
-        views.setTextViewText(R.id.textDays, context!!.getString(R.string.days_widget_days, Period(DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1))
-        views.setTextViewTextSize(R.id.textDays, TypedValue.COMPLEX_UNIT_SP, prefDaysSize.summary.toString().toFloat())
-        views.setTextColor(R.id.textDays, Color.parseColor(prefDaysColor.summary.toString()))
 
         AppWidgetManager.getInstance(context).updateAppWidget(widgetId, views)
 

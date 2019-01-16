@@ -42,9 +42,37 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:2837474038204811189",
+      "lastPropertyId": "5:8119879962251080348",
+      "name": "TextWidget",
+      "properties": [
+        {
+          "id": "1:2715567705596305093",
+          "name": "id"
+        },
+        {
+          "id": "2:3358593839141948542",
+          "name": "widgetId"
+        },
+        {
+          "id": "3:4470477726059110251",
+          "name": "title"
+        },
+        {
+          "id": "4:2254225534991585203",
+          "name": "titleSize"
+        },
+        {
+          "id": "5:8119879962251080348",
+          "name": "titleColor"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "3:1395345350511411676",
+  "lastEntityId": "4:2837474038204811189",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

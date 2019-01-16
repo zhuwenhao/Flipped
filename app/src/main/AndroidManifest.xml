@@ -44,6 +44,14 @@
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".widget.TextWidgetConfigureActivity"
+            android:label="@string/text_widget_label"
+            android:theme="@style/AppTheme.SubActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
 
         <receiver
             android:name=".widget.DaysWidgetProvider"
@@ -54,6 +62,16 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_info_days" />
+        </receiver>
+        <receiver
+            android:name=".widget.TextWidgetProvider"
+            android:label="@string/text_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_text" />
         </receiver>
     </application>
 

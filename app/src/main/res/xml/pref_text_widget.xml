@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="prefTitle"
+        android:title="@string/title" />
+
+    <PreferenceCategory android:title="@string/style">
+
+        <Preference
+            android:key="prefTitleSize"
+            android:title="@string/title_size" />
+
+        <Preference
+            android:key="prefTitleColor"
+            android:title="@string/title_color" />
+    </PreferenceCategory>
+</PreferenceScreen>
