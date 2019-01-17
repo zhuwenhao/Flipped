@@ -58,8 +58,10 @@
     <string name="style">样式</string>
     <string name="title_size">标题大小</string>
     <string name="title_color">标题颜色</string>
+    <string name="days_color_same_as_title_color">天数颜色与标题颜色一致</string>
     <string name="days_size">天数大小</string>
     <string name="days_color">天数颜色</string>
+    <string name="title_color_same_as_days_color">标题颜色与天数颜色一致</string>
     <string name="days_widget_days">第%1$d天</string>
 
     <string name="widget_title_check_hint">请输入标题</string>

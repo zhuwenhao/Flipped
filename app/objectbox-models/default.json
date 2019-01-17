@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "3:1395345350511411676",
-      "lastPropertyId": "9:7874009690155504693",
+      "lastPropertyId": "10:757731644476357384",
       "name": "DaysWidget",
       "properties": [
         {
@@ -43,6 +43,10 @@
         {
           "id": "9:7874009690155504693",
           "name": "textAlignment"
+        },
+        {
+          "id": "10:757731644476357384",
+          "name": "colorSameAs"
         }
       ],
       "relations": []

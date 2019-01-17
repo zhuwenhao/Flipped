@@ -14,9 +14,12 @@ import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreference
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.db.ObjectBox
+import com.zhuwenhao.flipped.ext.getDefaultSp
+import com.zhuwenhao.flipped.ext.remove
 import com.zhuwenhao.flipped.ext.toColorHex
 import com.zhuwenhao.flipped.view.ColorChooserView
 import io.objectbox.Box
@@ -31,8 +34,10 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
     private lateinit var prefStartDate: Preference
     private lateinit var prefTitleSize: Preference
     private lateinit var prefTitleColor: Preference
+    private lateinit var prefDaysColorSameAsTitleColor: SwitchPreference
     private lateinit var prefDaysSize: Preference
     private lateinit var prefDaysColor: Preference
+    private lateinit var prefTitleColorSameAsDaysColor: SwitchPreference
     private lateinit var prefAlignment: Preference
 
     private lateinit var textSizeList: Array<CharSequence>
@@ -97,6 +102,21 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
+        prefDaysColorSameAsTitleColor = findPreference("prefDaysColorSameAsTitleColor") as SwitchPreference
+        prefDaysColorSameAsTitleColor.setOnPreferenceClickListener {
+            val enabled = prefDaysColorSameAsTitleColor.isChecked.not()
+            prefDaysColor.isEnabled = enabled
+            prefTitleColorSameAsDaysColor.isEnabled = enabled
+
+            if (enabled.not()) {
+                prefDaysColor.summary = prefTitleColor.summary
+            }
+
+            context!!.getDefaultSp().remove("prefDaysColorSameAsTitleColor")
+
+            true
+        }
+
         prefDaysSize = findPreference("prefDaysSize")
         prefDaysSize.summary = textSizeList[1]
         prefDaysSize.setOnPreferenceClickListener {
@@ -109,6 +129,21 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         prefDaysColor.summary = Color.WHITE.toColorHex()
         prefDaysColor.setOnPreferenceClickListener {
             showColorChooserDialog(it)
+
+            true
+        }
+
+        prefTitleColorSameAsDaysColor = findPreference("prefTitleColorSameAsDaysColor") as SwitchPreference
+        prefTitleColorSameAsDaysColor.setOnPreferenceClickListener {
+            val enabled = prefTitleColorSameAsDaysColor.isChecked.not()
+            prefTitleColor.isEnabled = enabled
+            prefDaysColorSameAsTitleColor.isEnabled = enabled
+
+            if (enabled.not()) {
+                prefTitleColor.summary = prefDaysColor.summary
+            }
+
+            context!!.getDefaultSp().remove("prefTitleColorSameAsDaysColor")
 
             true
         }
@@ -155,6 +190,18 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             prefTitleColor.summary = daysWidget!!.titleColor
             prefDaysSize.summary = daysWidget!!.daysSize
             prefDaysColor.summary = daysWidget!!.daysColor
+            when (daysWidget!!.colorSameAs) {
+                1 -> {
+                    prefDaysColorSameAsTitleColor.isChecked = true
+                    prefDaysColor.isEnabled = false
+                    prefTitleColorSameAsDaysColor.isEnabled = false
+                }
+                2 -> {
+                    prefTitleColorSameAsDaysColor.isChecked = true
+                    prefTitleColor.isEnabled = false
+                    prefDaysColorSameAsTitleColor.isEnabled = false
+                }
+            }
             prefAlignment.summary = textAlignmentList[daysWidget!!.textAlignment]
             textAlignment = daysWidget!!.textAlignment
         }
@@ -189,6 +236,12 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
                 .negativeText(android.R.string.cancel)
                 .onPositive { dialog, _ ->
                     preference.summary = (dialog.customView as ColorChooserView).color.toColorHex()
+
+                    if (preference == prefTitleColor && prefDaysColorSameAsTitleColor.isChecked) {
+                        prefDaysColor.summary = preference.summary
+                    } else if (preference == prefDaysColor && prefTitleColorSameAsDaysColor.isChecked) {
+                        prefTitleColor.summary = preference.summary
+                    }
                 }
                 .build()
         (dialog.customView as ColorChooserView).setColorARGB(Color.parseColor(preference.summary.toString()))
@@ -202,6 +255,12 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
                 if (prefTitle.summary == null) {
                     Toast.makeText(context, R.string.widget_title_check_hint, Toast.LENGTH_SHORT).show()
                 } else {
+                    val colorSameAs = when {
+                        prefDaysColorSameAsTitleColor.isChecked -> 1
+                        prefTitleColorSameAsDaysColor.isChecked -> 2
+                        else -> 0
+                    }
+
                     if (daysWidget == null) {
                         dwBox.put(DaysWidget(widgetId = widgetId,
                                 title = prefTitle.summary.toString(),
@@ -210,6 +269,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
                                 titleColor = prefTitleColor.summary.toString(),
                                 daysSize = prefDaysSize.summary.toString(),
                                 daysColor = prefDaysColor.summary.toString(),
+                                colorSameAs = colorSameAs,
                                 textAlignment = textAlignment))
                     } else {
                         daysWidget?.title = prefTitle.summary.toString()
@@ -218,6 +278,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
                         daysWidget?.titleColor = prefTitleColor.summary.toString()
                         daysWidget?.daysSize = prefDaysSize.summary.toString()
                         daysWidget?.daysColor = prefDaysColor.summary.toString()
+                        daysWidget?.colorSameAs = colorSameAs
                         daysWidget?.textAlignment = textAlignment
                         dwBox.put(daysWidget!!)
                     }
