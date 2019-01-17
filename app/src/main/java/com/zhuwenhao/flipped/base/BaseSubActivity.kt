@@ -11,7 +11,7 @@ import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.r0adkll.slidr.Slidr
 import com.r0adkll.slidr.model.SlidrConfig
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity
 import com.zhuwenhao.flipped.R
 
 @SuppressLint("Registered")

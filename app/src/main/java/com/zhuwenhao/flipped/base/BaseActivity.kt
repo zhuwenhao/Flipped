@@ -2,7 +2,7 @@ package com.zhuwenhao.flipped.base
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity
 
 @SuppressLint("Registered")
 abstract class BaseActivity : RxAppCompatActivity() {

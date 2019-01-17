@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
-import com.trello.rxlifecycle2.android.FragmentEvent
+import com.trello.rxlifecycle3.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseLazyFragment

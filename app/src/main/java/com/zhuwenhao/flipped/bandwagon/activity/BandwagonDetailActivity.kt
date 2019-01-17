@@ -1,7 +1,7 @@
 package com.zhuwenhao.flipped.bandwagon.activity
 
 import android.widget.Toast
-import com.trello.rxlifecycle2.android.ActivityEvent
+import com.trello.rxlifecycle3.android.ActivityEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.bandwagon.BandwagonApi
