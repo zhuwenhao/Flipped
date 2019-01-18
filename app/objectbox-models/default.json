@@ -82,9 +82,45 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:4795948273070132383",
+      "lastPropertyId": "7:6458946106473179074",
+      "name": "Bandwagon",
+      "properties": [
+        {
+          "id": "1:8467107885685895810",
+          "name": "id"
+        },
+        {
+          "id": "2:2992870608884076896",
+          "name": "title"
+        },
+        {
+          "id": "3:6786096571276014536",
+          "name": "veId"
+        },
+        {
+          "id": "4:946168252733548379",
+          "name": "apiKey"
+        },
+        {
+          "id": "5:5234527030460801594",
+          "name": "ipAddresses"
+        },
+        {
+          "id": "6:6496176410964624677",
+          "name": "nodeLocation"
+        },
+        {
+          "id": "7:6458946106473179074",
+          "name": "userOrder"
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:2837474038204811189",
+  "lastEntityId": "5:4795948273070132383",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

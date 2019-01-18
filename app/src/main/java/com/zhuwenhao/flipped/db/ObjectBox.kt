@@ -2,7 +2,7 @@ package com.zhuwenhao.flipped.db
 
 import android.content.Context
 import com.zhuwenhao.flipped.BuildConfig
-import com.zhuwenhao.flipped.widget.MyObjectBox
+import com.zhuwenhao.flipped.MyObjectBox
 import io.objectbox.BoxStore
 import io.objectbox.android.AndroidObjectBrowser
 

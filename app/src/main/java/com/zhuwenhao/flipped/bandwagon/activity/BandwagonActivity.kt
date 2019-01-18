@@ -18,19 +18,22 @@ import com.chad.library.adapter.base.listener.OnItemDragListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
 import com.zhuwenhao.flipped.R
+import com.zhuwenhao.flipped.bandwagon.Bandwagon
+import com.zhuwenhao.flipped.bandwagon.Bandwagon_
 import com.zhuwenhao.flipped.bandwagon.adapter.BandwagonAdapter
-import com.zhuwenhao.flipped.bandwagon.entity.Bandwagon
 import com.zhuwenhao.flipped.base.BaseSubActivity
-import com.zhuwenhao.flipped.util.DatabaseUtils
+import com.zhuwenhao.flipped.db.ObjectBox
 import com.zhuwenhao.flipped.util.DisplayUtils
 import com.zhuwenhao.flipped.util.ImageUtils
+import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_bandwagon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 
 class BandwagonActivity : BaseSubActivity(), TextWatcher {
 
-    private var bandwagonList: MutableList<Bandwagon> = ArrayList()
     private lateinit var adapter: BandwagonAdapter
+
+    private lateinit var bBox: Box<com.zhuwenhao.flipped.bandwagon.Bandwagon>
 
     private lateinit var dialogTextTitle: AutoCompleteTextView
     private lateinit var dialogTextVeId: AutoCompleteTextView
@@ -44,10 +47,10 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     override fun initView() {
         setSupportActionBar(toolbar)
 
-        adapter = BandwagonAdapter(bandwagonList)
+        adapter = BandwagonAdapter(ArrayList())
         adapter.setOnItemClickListener { _, _, position ->
             val intent = Intent(this, BandwagonDetailActivity::class.java)
-            intent.putExtra("bandwagon", bandwagonList[position])
+            intent.putExtra("bandwagon", adapter.data[position])
             startActivity(intent)
         }
         adapter.setOnItemChildClickListener { _, _, position ->
@@ -85,7 +88,15 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
         adapter.enableDragItem(itemTouchHelper)
         adapter.setOnItemDragListener(object : OnItemDragListener {
             override fun onItemDragMoving(source: RecyclerView.ViewHolder?, from: Int, target: RecyclerView.ViewHolder?, to: Int) {
+                val fromB = adapter.data[from]
+                val toB = adapter.data[to]
 
+                val fromBUserOrder = fromB.userOrder
+                fromB.userOrder = toB.userOrder
+                toB.userOrder = fromBUserOrder
+
+                bBox.put(fromB)
+                bBox.put(toB)
             }
 
             override fun onItemDragStart(viewHolder: RecyclerView.ViewHolder?, pos: Int) {
@@ -107,8 +118,9 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     }
 
     override fun initData() {
-        bandwagonList.clear()
-        bandwagonList.addAll(DatabaseUtils.getBandwagonList(applicationContext))
+        bBox = ObjectBox.boxStore.boxFor(com.zhuwenhao.flipped.bandwagon.Bandwagon::class.java)
+
+        adapter.setNewData(bBox.query().order(Bandwagon_.userOrder).build().find())
         adapter.notifyDataSetChanged()
     }
 
@@ -120,9 +132,17 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
                 .negativeText(android.R.string.cancel)
                 .onPositive { _, _ ->
                     if (isEdit) {
-                        DatabaseUtils.updateBandwagon(applicationContext, bandwagonList[position].id, dialogTextTitle.text.toString(), dialogTextVeId.text.toString(), dialogTextApiKey.text.toString())
+                        val bandwagon = adapter.data[position]
+                        bandwagon.title = dialogTextTitle.text.toString()
+                        bandwagon.veId = dialogTextVeId.text.toString()
+                        bandwagon.apiKey = dialogTextApiKey.text.toString()
+                        bBox.put(bandwagon)
                     } else {
-                        DatabaseUtils.addBandwagon(applicationContext, dialogTextTitle.text.toString(), dialogTextVeId.text.toString(), dialogTextApiKey.text.toString())
+                        val lastUserOrder = bBox.query().build().property(Bandwagon_.userOrder).max().toInt()
+                        bBox.put(Bandwagon(title = dialogTextTitle.text.toString(),
+                                veId = dialogTextVeId.text.toString(),
+                                apiKey = dialogTextApiKey.text.toString(),
+                                userOrder = lastUserOrder + 1))
                     }
                 }
                 .canceledOnTouchOutside(false)
@@ -136,7 +156,7 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
         dialogTextApiKey = dialog.customView!!.findViewById(R.id.textApiKey)
         dialogTextApiKey.addTextChangedListener(this)
         if (isEdit) {
-            val bandwagon = adapter.data[position] as Bandwagon
+            val bandwagon = adapter.data[position]
             dialogTextTitle.setText(bandwagon.title)
             dialogTextVeId.setText(bandwagon.veId)
             dialogTextApiKey.setText(bandwagon.apiKey)
