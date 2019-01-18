@@ -18,8 +18,6 @@ import androidx.preference.SwitchPreference
 import com.afollestad.materialdialogs.MaterialDialog
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.db.ObjectBox
-import com.zhuwenhao.flipped.ext.getDefaultSp
-import com.zhuwenhao.flipped.ext.remove
 import com.zhuwenhao.flipped.ext.toColorHex
 import com.zhuwenhao.flipped.view.ColorChooserView
 import io.objectbox.Box
@@ -103,6 +101,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         }
 
         prefDaysColorSameAsTitleColor = findPreference("prefDaysColorSameAsTitleColor") as SwitchPreference
+        prefDaysColorSameAsTitleColor.isChecked = false
         prefDaysColorSameAsTitleColor.setOnPreferenceClickListener {
             val enabled = prefDaysColorSameAsTitleColor.isChecked.not()
             prefDaysColor.isEnabled = enabled
@@ -111,8 +110,6 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             if (enabled.not()) {
                 prefDaysColor.summary = prefTitleColor.summary
             }
-
-            context!!.getDefaultSp().remove("prefDaysColorSameAsTitleColor")
 
             true
         }
@@ -134,6 +131,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         }
 
         prefTitleColorSameAsDaysColor = findPreference("prefTitleColorSameAsDaysColor") as SwitchPreference
+        prefTitleColorSameAsDaysColor.isChecked = false
         prefTitleColorSameAsDaysColor.setOnPreferenceClickListener {
             val enabled = prefTitleColorSameAsDaysColor.isChecked.not()
             prefTitleColor.isEnabled = enabled
@@ -142,8 +140,6 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             if (enabled.not()) {
                 prefTitleColor.summary = prefDaysColor.summary
             }
-
-            context!!.getDefaultSp().remove("prefTitleColorSameAsDaysColor")
 
             true
         }
