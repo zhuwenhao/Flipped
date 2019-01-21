@@ -1,4 +1,4 @@
-package com.zhuwenhao.flipped.movie.fragment
+package com.zhuwenhao.flipped.movie
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -12,15 +12,9 @@ import com.trello.rxlifecycle3.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseLazyFragment
-import com.zhuwenhao.flipped.ext.getDefaultSp
-import com.zhuwenhao.flipped.ext.getStringX
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
-import com.zhuwenhao.flipped.movie.DouBanMovieApi
-import com.zhuwenhao.flipped.movie.adapter.ComingSoonAdapter
-import com.zhuwenhao.flipped.movie.entity.Movie
-import com.zhuwenhao.flipped.movie.entity.Subject
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
@@ -29,7 +23,7 @@ import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
 import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.fragment_coming_soon.*
+import kotlinx.android.synthetic.main.fragment_movie_subject_list.*
 
 class ComingSoonFragment : BaseLazyFragment() {
 
@@ -48,7 +42,7 @@ class ComingSoonFragment : BaseLazyFragment() {
     private lateinit var loadService: LoadService<Any>
 
     override fun provideLayoutId(): Int {
-        return R.layout.fragment_coming_soon
+        return R.layout.fragment_movie_subject_list
     }
 
     override fun initView() {
@@ -94,7 +88,7 @@ class ComingSoonFragment : BaseLazyFragment() {
         }
 
         RetrofitFactory.newInstance(Constants.DOU_BAN_MOVIE_API_URL).create(DouBanMovieApi::class.java)
-                .getComingSoon(mContext.getDefaultSp().getStringX(Constants.SP_KEY_LAST_MOVIE_CITY, getString(R.string.shanghai)), if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
+                .getComingSoon(if (isRefresh) 0 else (currentPage + 1) * pageSize, pageSize)
                 .compose(RxSchedulers.io2Main())
                 .compose(bindUntilEvent(FragmentEvent.DESTROY))
                 .subscribe(object : RxObserver<Movie>() {

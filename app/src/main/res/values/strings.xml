@@ -6,6 +6,9 @@
 
     <string name="movie_in_theaters">正在热映</string>
     <string name="movie_coming_soon">即将上映</string>
+    <string name="movie_top250">TOP250</string>
+    <string name="movie_weekly">一周口碑榜</string>
+    <string name="movie_us_box">北美票房榜</string>
 
     <string name="load_more_fail">加载失败，点击重试</string>
     <string name="the_end">THE END</string>

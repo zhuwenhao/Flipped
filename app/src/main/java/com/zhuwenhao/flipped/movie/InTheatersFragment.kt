@@ -1,4 +1,4 @@
-package com.zhuwenhao.flipped.movie.fragment
+package com.zhuwenhao.flipped.movie
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -17,15 +17,11 @@ import com.zhuwenhao.flipped.ext.getStringX
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
-import com.zhuwenhao.flipped.movie.DouBanMovieApi
-import com.zhuwenhao.flipped.movie.adapter.InTheatersAdapter
-import com.zhuwenhao.flipped.movie.entity.Movie
-import com.zhuwenhao.flipped.movie.entity.Subject
 import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
 import com.zhuwenhao.flipped.view.callback.ErrorCallback
-import kotlinx.android.synthetic.main.fragment_in_theaters.*
+import kotlinx.android.synthetic.main.fragment_movie_subject_list.*
 
 class InTheatersFragment : BaseLazyFragment() {
 
@@ -44,7 +40,7 @@ class InTheatersFragment : BaseLazyFragment() {
     private lateinit var loadService: LoadService<Any>
 
     override fun provideLayoutId(): Int {
-        return R.layout.fragment_in_theaters
+        return R.layout.fragment_movie_subject_list
     }
 
     override fun initView() {
@@ -70,7 +66,7 @@ class InTheatersFragment : BaseLazyFragment() {
         }, recyclerView)
 
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        recyclerView.addItemDecoration(ItemDecorations.vertical(mContext).type(0, R.drawable.item_decoration_h_1).create())
+        recyclerView.addItemDecoration(ItemDecorations.vertical(mContext).type(0, R.drawable.item_decoration_h_1_left_100).create())
         recyclerView.adapter = adapter
     }
 

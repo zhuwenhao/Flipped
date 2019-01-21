@@ -1,4 +1,4 @@
-package com.zhuwenhao.flipped.movie.entity
+package com.zhuwenhao.flipped.movie
 
 data class Movie(val count: Int,
                  val start: Int,

@@ -2,7 +2,6 @@ package com.zhuwenhao.flipped.util
 
 import com.zhuwenhao.flipped.FlippedApp
 import com.zhuwenhao.flipped.R
-import com.zhuwenhao.flipped.movie.entity.Subject
 import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.PeriodType
@@ -55,38 +54,6 @@ class StringUtils {
                 else
                     mainlandDateTime.toString("yyyy年M月d日") + " " + mainlandDateTime.dayOfWeek().getAsShortText(Locale.CHINA)
             }
-        }
-
-        fun formatYearAndGenres(year: String, genres: List<String>): String {
-            val sb = StringBuilder()
-            sb.append(year)
-            if (genres.isEmpty())
-                return sb.toString()
-
-            sb.append(" / ")
-            for (genre in genres) {
-                sb.append(genre)
-                sb.append(" ")
-            }
-            return sb.toString()
-        }
-
-        fun formatDirectors(directorList: List<Subject.Director>): String {
-            val sb = StringBuilder()
-            for (director in directorList) {
-                sb.append(director.name)
-                sb.append(" ")
-            }
-            return sb.toString()
-        }
-
-        fun formatCasts(castList: List<Subject.Cast>): String {
-            val sb = StringBuilder()
-            for (cast in castList) {
-                sb.append(cast.name)
-                sb.append(" ")
-            }
-            return sb.toString()
         }
 
         fun formatIpAddresses(ipAddresses: List<String>): String {

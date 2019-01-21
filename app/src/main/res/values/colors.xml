@@ -10,7 +10,7 @@
 
     <color name="bgShortcut">#F5F5F5</color>
 
-    <color name="divider">#EEEEEE</color>
+    <color name="divider">#E0E0E0</color>
 
     <color name="movieRating">#E09015</color>
 </resources>

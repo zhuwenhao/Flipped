@@ -1,7 +1,9 @@
-package com.zhuwenhao.flipped.movie.entity
+package com.zhuwenhao.flipped.movie
 
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.google.gson.annotations.SerializedName
+import com.zhuwenhao.flipped.FlippedApp
+import com.zhuwenhao.flipped.R
 import org.joda.time.DateTime
 
 data class Subject(val rating: Rating,
@@ -53,6 +55,49 @@ data class Subject(val rating: Rating,
         this.mainlandDateTime = mainlandDateTime
         this.mainlandDateForHeader = mainlandDateForHeader
     }
+
+    val yearAndGenres: String
+        get() {
+            val sb = StringBuilder()
+            sb.append(year)
+            if (genres.isEmpty())
+                return sb.toString()
+
+            sb.append(" / ")
+            for (genre in genres) {
+                sb.append(genre)
+                sb.append(" ")
+            }
+            return sb.toString()
+        }
+
+    val formatDirectors: String
+        get() {
+            return if (directors.isEmpty()) {
+                ""
+            } else {
+                val sb = StringBuilder()
+                for (director in directors) {
+                    sb.append(director.name)
+                    sb.append(" ")
+                }
+                FlippedApp.getInstance().getString(R.string.item_directors, sb.toString())
+            }
+        }
+
+    val formatCasts: String
+        get() {
+            return if (casts.isEmpty()) {
+                ""
+            } else {
+                val sb = StringBuilder()
+                for (cast in casts) {
+                    sb.append(cast.name)
+                    sb.append(" ")
+                }
+                FlippedApp.getInstance().getString(R.string.item_casts, sb.toString())
+            }
+        }
 
     var mainlandDate: String = ""
 

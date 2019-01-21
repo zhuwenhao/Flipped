@@ -1,4 +1,4 @@
-package com.zhuwenhao.flipped.movie.adapter
+package com.zhuwenhao.flipped.movie
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -6,14 +6,12 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.oushangfeng.pinnedsectionitemdecoration.utils.FullSpanUtil
 import com.zhuwenhao.flipped.R
-import com.zhuwenhao.flipped.movie.entity.Subject
-import com.zhuwenhao.flipped.util.StringUtils
 
 class ComingSoonAdapter(data: List<Subject>) : BaseMultiItemQuickAdapter<Subject, BaseViewHolder>(data) {
 
     init {
         addItemType(Subject.TYPE_HEADER, R.layout.item_coming_soon_header)
-        addItemType(Subject.TYPE_DATA, R.layout.item_coming_soon)
+        addItemType(Subject.TYPE_DATA, R.layout.item_movie_subject)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -43,9 +41,9 @@ class ComingSoonAdapter(data: List<Subject>) : BaseMultiItemQuickAdapter<Subject
                     helper.setGone(R.id.textRating, true)
                     helper.setText(R.id.textRating, item.rating.average.toString())
                 }
-                helper.setText(R.id.textYearAndGenres, StringUtils.formatYearAndGenres(item.year, item.genres))
-                helper.setText(R.id.textDirectors, if (item.directors.isNotEmpty()) mContext.getString(R.string.item_directors, StringUtils.formatDirectors(item.directors)) else "")
-                helper.setText(R.id.textCasts, if (item.casts.isNotEmpty()) mContext.getString(R.string.item_casts, StringUtils.formatCasts(item.casts)) else "")
+                helper.setText(R.id.textYearAndGenres, item.yearAndGenres)
+                helper.setText(R.id.textDirectors, item.formatDirectors)
+                helper.setText(R.id.textCasts, item.formatCasts)
             }
         }
     }

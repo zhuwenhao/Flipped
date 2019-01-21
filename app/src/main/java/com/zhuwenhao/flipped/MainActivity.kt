@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayout
 import com.mikepenz.materialdrawer.Drawer
 import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
@@ -20,9 +21,7 @@ import com.zhuwenhao.flipped.bandwagon.activity.BandwagonActivity
 import com.zhuwenhao.flipped.base.BaseActivity
 import com.zhuwenhao.flipped.ext.getDefaultSp
 import com.zhuwenhao.flipped.ext.putString
-import com.zhuwenhao.flipped.movie.adapter.MoviePagerAdapter
-import com.zhuwenhao.flipped.movie.fragment.ComingSoonFragment
-import com.zhuwenhao.flipped.movie.fragment.InTheatersFragment
+import com.zhuwenhao.flipped.movie.*
 import com.zhuwenhao.flipped.rss.activity.RssActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -72,6 +71,9 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
         val titles = ArrayList<String>()
         titles.add(getString(R.string.movie_in_theaters))
         titles.add(getString(R.string.movie_coming_soon))
+        titles.add(getString(R.string.movie_top250))
+        titles.add(getString(R.string.movie_weekly))
+        titles.add(getString(R.string.movie_us_box))
         for (title in titles) {
             tabLayout.addTab(tabLayout.newTab().setText(title))
         }
@@ -79,10 +81,27 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
         val fragmentList = ArrayList<Fragment>()
         fragmentList.add(InTheatersFragment.newInstance())
         fragmentList.add(ComingSoonFragment.newInstance())
+        fragmentList.add(Top250Fragment.newInstance())
+        fragmentList.add(RankingFragment.newInstance(1))
+        fragmentList.add(RankingFragment.newInstance(2))
 
         val pagerAdapter = MoviePagerAdapter(supportFragmentManager, fragmentList, titles)
         viewPager.adapter = pagerAdapter
+        viewPager.offscreenPageLimit = fragmentList.size
         tabLayout.setupWithViewPager(viewPager)
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                menuCity.isVisible = tab.position == 0
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {
+
+            }
+        })
 
         createDynamicShortcuts()
     }

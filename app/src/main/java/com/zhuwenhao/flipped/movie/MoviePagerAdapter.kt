@@ -1,4 +1,4 @@
-package com.zhuwenhao.flipped.movie.adapter
+package com.zhuwenhao.flipped.movie
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
