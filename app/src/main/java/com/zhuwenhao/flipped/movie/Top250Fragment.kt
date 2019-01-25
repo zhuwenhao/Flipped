@@ -137,4 +137,8 @@ class Top250Fragment : BaseLazyFragment() {
                     }
                 })
     }
+
+    fun scrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
+    }
 }

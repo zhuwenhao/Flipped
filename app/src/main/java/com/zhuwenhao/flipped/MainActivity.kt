@@ -78,12 +78,18 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
             tabLayout.addTab(tabLayout.newTab().setText(title))
         }
 
+        val inTheatersFragment = InTheatersFragment.newInstance()
+        val comingSoonFragment = ComingSoonFragment.newInstance()
+        val top250Fragment = Top250Fragment.newInstance()
+        val weeklyFragment = RankingFragment.newInstance(1)
+        val usBoxFragment = RankingFragment.newInstance(2)
+
         val fragmentList = ArrayList<Fragment>()
-        fragmentList.add(InTheatersFragment.newInstance())
-        fragmentList.add(ComingSoonFragment.newInstance())
-        fragmentList.add(Top250Fragment.newInstance())
-        fragmentList.add(RankingFragment.newInstance(1))
-        fragmentList.add(RankingFragment.newInstance(2))
+        fragmentList.add(inTheatersFragment)
+        fragmentList.add(comingSoonFragment)
+        fragmentList.add(top250Fragment)
+        fragmentList.add(weeklyFragment)
+        fragmentList.add(usBoxFragment)
 
         val pagerAdapter = MoviePagerAdapter(supportFragmentManager, fragmentList, titles)
         viewPager.adapter = pagerAdapter
@@ -99,7 +105,13 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab) {
-
+                when (tab.position) {
+                    0 -> inTheatersFragment.scrollToTop()
+                    1 -> comingSoonFragment.scrollToTop()
+                    2 -> top250Fragment.scrollToTop()
+                    3 -> weeklyFragment.scrollToTop()
+                    4 -> usBoxFragment.scrollToTop()
+                }
             }
         })
 

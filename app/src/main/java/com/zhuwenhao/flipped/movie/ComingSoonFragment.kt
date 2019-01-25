@@ -207,4 +207,8 @@ class ComingSoonFragment : BaseLazyFragment() {
                     }
                 })
     }
+
+    fun scrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
+    }
 }

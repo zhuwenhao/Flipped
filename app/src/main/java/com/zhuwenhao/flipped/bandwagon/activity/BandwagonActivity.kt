@@ -1,10 +1,12 @@
 package com.zhuwenhao.flipped.bandwagon.activity
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -160,6 +162,12 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
             dialogTextTitle.setText(bandwagon.title)
             dialogTextVeId.setText(bandwagon.veId)
             dialogTextApiKey.setText(bandwagon.apiKey)
+        }
+        dialog.setOnShowListener {
+            dialogTextTitle.requestFocus()
+            dialogTextTitle.setSelection(dialogTextTitle.length())
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(dialogTextTitle, InputMethodManager.SHOW_IMPLICIT)
         }
         dialog.show()
         dialogPositiveBtn.isEnabled = isEdit

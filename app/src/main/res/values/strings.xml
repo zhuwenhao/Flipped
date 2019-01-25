@@ -47,6 +47,7 @@
     <string name="disk_usage">磁盘使用情况</string>
     <string name="bandwidth_usage">流量使用情况</string>
     <string name="resets">重置：%1$s</string>
+    <string name="data_multiplier">高级带宽乘数：%1$.3f</string>
 
     <string name="start">启动</string>
     <string name="stop">停止</string>

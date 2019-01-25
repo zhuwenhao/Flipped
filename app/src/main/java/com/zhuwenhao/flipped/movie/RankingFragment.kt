@@ -107,4 +107,8 @@ class RankingFragment : BaseLazyFragment() {
                     }
                 })
     }
+
+    fun scrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
+    }
 }

@@ -144,4 +144,8 @@ class InTheatersFragment : BaseLazyFragment() {
                     }
                 })
     }
+
+    fun scrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
+    }
 }
