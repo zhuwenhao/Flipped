@@ -31,10 +31,6 @@
             android:name=".bandwagon.activity.BandwagonDetailActivity"
             android:label="@string/bandwagon"
             android:theme="@style/AppTheme.SubActivity" />
-        <activity
-            android:name=".rss.activity.RssActivity"
-            android:label="@string/rss"
-            android:theme="@style/AppTheme.SubActivity" />
 
         <activity
             android:name=".widget.DaysWidgetConfigureActivity"
