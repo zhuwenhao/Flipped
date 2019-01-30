@@ -20,9 +20,11 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
 import com.zhuwenhao.flipped.bandwagon.activity.BandwagonActivity
 import com.zhuwenhao.flipped.base.BaseActivity
 import com.zhuwenhao.flipped.ext.getDefaultSp
+import com.zhuwenhao.flipped.ext.getStringX
 import com.zhuwenhao.flipped.ext.putString
 import com.zhuwenhao.flipped.movie.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_movie_subject_list.*
 
 class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
 
@@ -32,6 +34,8 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
 
     private lateinit var drawer: Drawer
     private lateinit var menuCity: MenuItem
+
+    private lateinit var inTheatersFragment: InTheatersFragment
 
     override fun provideLayoutId(): Int {
         return R.layout.activity_main
@@ -68,7 +72,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
             tabLayout.addTab(tabLayout.newTab().setText(title))
         }
 
-        val inTheatersFragment = InTheatersFragment.newInstance()
+        inTheatersFragment = InTheatersFragment.newInstance()
         val comingSoonFragment = ComingSoonFragment.newInstance()
         val top250Fragment = Top250Fragment.newInstance()
         val weeklyFragment = RankingFragment.newInstance(1)
@@ -153,9 +157,16 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
         when (item.itemId) {
             R.id.menu_beijing, R.id.menu_shanghai, R.id.menu_guangzhou, R.id.menu_shenzhen,
             R.id.menu_shaoyang -> {
+                if (inTheatersFragment.isFirst
+                        || (inTheatersFragment.adapter.data.isNotEmpty() && item.title == getDefaultSp().getStringX(Constants.SP_KEY_LAST_MOVIE_CITY))
+                        || inTheatersFragment.swipeRefreshLayout.isRefreshing) {
+                    return true
+                }
+
                 item.isChecked = true
                 menuCity.title = item.title
                 getDefaultSp().putString(Constants.SP_KEY_LAST_MOVIE_CITY, item.title.toString())
+                inTheatersFragment.refresh()
                 return true
             }
         }

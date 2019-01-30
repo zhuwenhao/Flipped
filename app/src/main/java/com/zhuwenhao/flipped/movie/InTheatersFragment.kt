@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
@@ -33,11 +34,15 @@ class InTheatersFragment : BaseLazyFragment() {
 
     private var currentPage: Int = 0
     private val pageSize: Int = 20
-    private var isFirst: Boolean = true
+    var isFirst: Boolean = true
 
-    private lateinit var adapter: InTheatersAdapter
+    lateinit var adapter: InTheatersAdapter
 
     private lateinit var loadService: LoadService<Any>
+
+    private val onRefreshListener = SwipeRefreshLayout.OnRefreshListener {
+        getInTheaters(true)
+    }
 
     override fun provideLayoutId(): Int {
         return R.layout.fragment_movie_subject_list
@@ -45,9 +50,7 @@ class InTheatersFragment : BaseLazyFragment() {
 
     override fun initView() {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary)
-        swipeRefreshLayout.setOnRefreshListener {
-            getInTheaters(true)
-        }
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener)
         swipeRefreshLayout.isEnabled = false
 
         loadService = LoadSir.getDefault().register(recyclerView)
@@ -147,5 +150,12 @@ class InTheatersFragment : BaseLazyFragment() {
 
     fun scrollToTop() {
         recyclerView.smoothScrollToPosition(0)
+    }
+
+    fun refresh() {
+        swipeRefreshLayout.post {
+            swipeRefreshLayout.isRefreshing = true
+            onRefreshListener.onRefresh()
+        }
     }
 }
