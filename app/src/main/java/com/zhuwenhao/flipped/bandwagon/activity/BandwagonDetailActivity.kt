@@ -10,6 +10,7 @@ import com.zhuwenhao.flipped.bandwagon.BandwagonApi
 import com.zhuwenhao.flipped.bandwagon.entity.BandwagonInfo
 import com.zhuwenhao.flipped.base.BaseSubActivity
 import com.zhuwenhao.flipped.db.ObjectBox
+import com.zhuwenhao.flipped.ext.formatByte
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
@@ -77,20 +78,20 @@ class BandwagonDetailActivity : BaseSubActivity() {
 
                             textCpuLoad.text = if (t.vmType == "kvm") getString(R.string.cpu_load_info_kvm, t.loadAverage) else getString(R.string.cpu_load_info_ovz, t.vzStatus.npRoc, t.vzStatus.loadAverage)
 
-                            textUsedRam.text = StringUtils.formatByte(t.usedRam)
-                            textTotalRam.text = StringUtils.formatByte(t.totalRam)
+                            textUsedRam.text = t.usedRam.formatByte()
+                            textTotalRam.text = t.totalRam.formatByte()
                             pbRam.progress = t.ramPercent
 
-                            textUsedSwap.text = StringUtils.formatByte(t.usedSwap)
-                            textTotalSwap.text = StringUtils.formatByte(t.totalSwap)
+                            textUsedSwap.text = t.usedSwap.formatByte()
+                            textTotalSwap.text = t.totalSwap.formatByte()
                             pbSwap.progress = t.swapPercent
 
-                            textUsedDisk.text = StringUtils.formatByte(t.usedDisk)
-                            textTotalDisk.text = StringUtils.formatByte(t.totalDisk)
+                            textUsedDisk.text = t.usedDisk.formatByte()
+                            textTotalDisk.text = t.totalDisk.formatByte()
                             pbDisk.progress = t.diskPercent
 
-                            textUsedData.text = StringUtils.formatByte(t.usedData)
-                            textTotalData.text = StringUtils.formatByte(t.totalData)
+                            textUsedData.text = t.usedData.formatByte()
+                            textTotalData.text = t.totalData.formatByte()
                             pbData.progress = t.dataPercent
 
                             textResets.text = getString(R.string.resets, DateTime(t.dataNextReset * 1000).toString("yyyy-MM-dd"))

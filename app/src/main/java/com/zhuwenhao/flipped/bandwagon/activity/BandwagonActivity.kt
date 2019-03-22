@@ -25,8 +25,8 @@ import com.zhuwenhao.flipped.bandwagon.Bandwagon_
 import com.zhuwenhao.flipped.bandwagon.adapter.BandwagonAdapter
 import com.zhuwenhao.flipped.base.BaseSubActivity
 import com.zhuwenhao.flipped.db.ObjectBox
-import com.zhuwenhao.flipped.util.DisplayUtils
-import com.zhuwenhao.flipped.util.ImageUtils
+import com.zhuwenhao.flipped.ext.dpToPx
+import com.zhuwenhao.flipped.ext.toBitmap
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_bandwagon.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
@@ -82,8 +82,8 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
                 canvas.drawColor(Color.parseColor("#D83025"))
 
                 val itemView = viewHolder.itemView
-                val icon = ImageUtils.drawableToBitmap(ContextCompat.getDrawable(mContext, R.drawable.ic_delete_white)!!)
-                val margin = DisplayUtils.dpToPx(mContext.applicationContext, 24F)
+                val icon = ContextCompat.getDrawable(mContext, R.drawable.ic_delete_white)!!.toBitmap()
+                val margin = dpToPx(24F)
                 canvas.drawBitmap(icon, if (dX > 0) itemView.left.toFloat() + margin else -dX - margin - icon.width, (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2, null)
             }
         })

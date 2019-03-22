@@ -6,7 +6,6 @@ import org.joda.time.DateTime
 import org.joda.time.Period
 import org.joda.time.PeriodType
 import org.joda.time.format.DateTimeFormat
-import java.text.DecimalFormat
 import java.util.*
 
 class StringUtils {
@@ -73,32 +72,6 @@ class StringUtils {
                 chars[0] = chars[0] - 32
             }
             return String(chars)
-        }
-
-        fun formatByte(size: Long): String {
-            var b = size.toFloat()
-            val format = DecimalFormat("#.##")
-
-            //B
-            if (b < 1024) {
-                return format.format(b) + "B"
-            } else {
-                b /= 1024
-            }
-
-            //KB
-            if (b < 1024) {
-                return format.format(b) + "KB"
-            } else {
-                b /= 1024
-            }
-
-            //MB
-            return if (b < 1024) {
-                format.format(b) + "MB"
-            } else {
-                format.format(b / 1024) + "GB"
-            }
         }
     }
 }
