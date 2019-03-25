@@ -14,6 +14,10 @@ import android.widget.Toast
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
+import com.afollestad.materialdialogs.input.input
+import com.afollestad.materialdialogs.list.listItems
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.db.ObjectBox
 import com.zhuwenhao.flipped.ext.toColorHex
@@ -45,15 +49,14 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     private fun initPref() {
         prefTitle = findPreference("prefTitle")
         prefTitle.setOnPreferenceClickListener {
-            MaterialDialog.Builder(context!!)
-                    .title(it.title)
-                    .input(getString(R.string.widget_title_check_hint), it.summary, false) { _, input ->
-                        it.summary = input
-                    }
-                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
-                    .positiveText(android.R.string.ok)
-                    .negativeText(android.R.string.cancel)
-                    .show()
+            MaterialDialog(context!!).show {
+                title(text = it.title.toString())
+                input(hintRes = R.string.widget_title_check_hint, prefill = it.summary, inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE) { _, text ->
+                    it.summary = text
+                }
+                positiveButton(android.R.string.ok)
+                negativeButton(android.R.string.cancel)
+            }
 
             true
         }
@@ -81,25 +84,13 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
         prefAlignment = findPreference("prefAlignment")
         prefAlignment.summary = textAlignmentList[textAlignment]
         prefAlignment.setOnPreferenceClickListener {
-            var selectedIndex = 0
-            for ((index, value) in textAlignmentList.withIndex()) {
-                if (value == it.summary) {
-                    selectedIndex = index
-                    break
+            MaterialDialog(context!!).show {
+                title(text = it.title.toString())
+                listItems(R.array.pref_list_text_alignment) { _, index, text ->
+                    textAlignment = index
+                    it.summary = text
                 }
             }
-
-            MaterialDialog.Builder(context!!)
-                    .title(it.title)
-                    .items(R.array.pref_list_text_alignment)
-                    .itemsCallbackSingleChoice(selectedIndex) { _, _, which, text ->
-                        textAlignment = which
-                        it.summary = text
-
-                        true
-                    }
-                    .negativeText(android.R.string.cancel)
-                    .show()
 
             true
         }
@@ -121,37 +112,23 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun showTextSizeSingleChoiceDialog(preference: Preference) {
-        var selectedIndex = 0
-        for ((index, value) in textSizeList.withIndex()) {
-            if (value == preference.summary) {
-                selectedIndex = index
-                break
+        MaterialDialog(context!!).show {
+            title(text = preference.title.toString())
+            listItems(R.array.pref_list_text_size) { _, _, text ->
+                preference.summary = text
             }
         }
-
-        MaterialDialog.Builder(context!!)
-                .title(preference.title)
-                .items(R.array.pref_list_text_size)
-                .itemsCallbackSingleChoice(selectedIndex) { _, _, _, text ->
-                    preference.summary = text
-
-                    true
-                }
-                .negativeText(android.R.string.cancel)
-                .show()
     }
 
     private fun showColorChooserDialog(preference: Preference) {
-        val dialog = MaterialDialog.Builder(context!!)
-                .title(preference.title)
-                .customView(R.layout.dialog_color_chooser, false)
-                .positiveText(android.R.string.ok)
-                .negativeText(android.R.string.cancel)
-                .onPositive { dialog, _ ->
-                    preference.summary = (dialog.customView as ColorChooserView).color.toColorHex()
+        val dialog = MaterialDialog(context!!)
+                .title(text = preference.title.toString())
+                .customView(R.layout.dialog_color_chooser)
+                .positiveButton(android.R.string.ok) { dialog ->
+                    preference.summary = (dialog.getCustomView() as ColorChooserView).color.toColorHex()
                 }
-                .build()
-        (dialog.customView as ColorChooserView).setColorARGB(Color.parseColor(preference.summary.toString()))
+                .negativeButton(android.R.string.cancel)
+        (dialog.getCustomView() as ColorChooserView).setColorARGB(Color.parseColor(preference.summary.toString()))
         dialog.show()
     }
 

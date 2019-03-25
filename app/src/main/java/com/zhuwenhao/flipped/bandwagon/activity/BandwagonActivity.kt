@@ -12,9 +12,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.afollestad.materialdialogs.DialogAction
 import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.internal.MDButton
+import com.afollestad.materialdialogs.WhichButton
+import com.afollestad.materialdialogs.actions.getActionButton
+import com.afollestad.materialdialogs.callbacks.onShow
+import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
+import com.afollestad.materialdialogs.internal.button.DialogActionButton
 import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemDragListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
@@ -40,7 +44,7 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     private lateinit var dialogTextTitle: AutoCompleteTextView
     private lateinit var dialogTextVeId: AutoCompleteTextView
     private lateinit var dialogTextApiKey: AutoCompleteTextView
-    private lateinit var dialogPositiveBtn: MDButton
+    private lateinit var dialogPositiveBtn: DialogActionButton
 
     override fun provideLayoutId(): Int {
         return R.layout.activity_bandwagon
@@ -127,12 +131,10 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     }
 
     private fun showEditDialog(isEdit: Boolean, position: Int) {
-        val dialog = MaterialDialog.Builder(this)
+        val dialog = MaterialDialog(this)
                 .title(if (isEdit) R.string.edit_bandwagon else R.string.add_bandwagon)
-                .customView(R.layout.dialog_bandwagon_add, true)
-                .positiveText(android.R.string.ok)
-                .negativeText(android.R.string.cancel)
-                .onPositive { _, _ ->
+                .customView(R.layout.dialog_bandwagon_add, scrollable = true)
+                .positiveButton(android.R.string.ok) {
                     if (isEdit) {
                         val bandwagon = adapter.data[position]
                         bandwagon.title = dialogTextTitle.text.toString()
@@ -147,27 +149,27 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
                                 userOrder = lastUserOrder + 1))
                     }
                 }
-                .canceledOnTouchOutside(false)
-                .build()
+                .negativeButton(android.R.string.cancel)
+                .cancelOnTouchOutside(false)
+                .onShow {
+                    dialogTextTitle.requestFocus()
+                    dialogTextTitle.setSelection(dialogTextTitle.length())
+                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(dialogTextTitle, InputMethodManager.SHOW_IMPLICIT)
+                }
 
-        dialogPositiveBtn = dialog.getActionButton(DialogAction.POSITIVE)
-        dialogTextTitle = dialog.customView!!.findViewById(R.id.textTitle)
+        dialogPositiveBtn = dialog.getActionButton(WhichButton.POSITIVE)
+        dialogTextTitle = dialog.getCustomView().findViewById(R.id.textTitle)
         dialogTextTitle.addTextChangedListener(this)
-        dialogTextVeId = dialog.customView!!.findViewById(R.id.textVeId)
+        dialogTextVeId = dialog.getCustomView().findViewById(R.id.textVeId)
         dialogTextVeId.addTextChangedListener(this)
-        dialogTextApiKey = dialog.customView!!.findViewById(R.id.textApiKey)
+        dialogTextApiKey = dialog.getCustomView().findViewById(R.id.textApiKey)
         dialogTextApiKey.addTextChangedListener(this)
         if (isEdit) {
             val bandwagon = adapter.data[position]
             dialogTextTitle.setText(bandwagon.title)
             dialogTextVeId.setText(bandwagon.veId)
             dialogTextApiKey.setText(bandwagon.apiKey)
-        }
-        dialog.setOnShowListener {
-            dialogTextTitle.requestFocus()
-            dialogTextTitle.setSelection(dialogTextTitle.length())
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(dialogTextTitle, InputMethodManager.SHOW_IMPLICIT)
         }
         dialog.show()
         dialogPositiveBtn.isEnabled = isEdit
