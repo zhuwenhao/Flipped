@@ -177,6 +177,6 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
         if (drawer.isDrawerOpen)
             drawer.closeDrawer()
         else
-            moveTaskToBack(false)
+            super.onBackPressed()
     }
 }
