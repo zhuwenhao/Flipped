@@ -26,6 +26,25 @@
     <string name="item_directors">导演：%1$s</string>
     <string name="item_casts">演员：%1$s</string>
 
+    <string name="mainland_china">中国大陆</string>
+    <string name="star_1">★</string>
+    <string name="star_2">★★</string>
+    <string name="star_3">★★★</string>
+    <string name="star_4">★★★★</string>
+    <string name="star_5">★★★★★</string>
+    <string name="view_more">查看更多</string>
+
+    <string name="cast_and_credits">演职人员</string>
+    <string name="directors">导演</string>
+    <string name="casts">演员</string>
+    <string name="original_title">原名</string>
+    <string name="genres">类型</string>
+    <string name="countries">国家或地区</string>
+    <string name="languages">语言</string>
+    <string name="pub_dates">上映日期</string>
+    <string name="durations">片长</string>
+    <string name="aka">别名</string>
+
     <string name="add_bandwagon">添加主机</string>
     <string name="edit_bandwagon">编辑主机</string>
     <string name="title">标题</string>

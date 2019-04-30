@@ -64,10 +64,7 @@ data class Subject(val rating: Rating,
                 return sb.toString()
 
             sb.append(" / ")
-            for (genre in genres) {
-                sb.append(genre)
-                sb.append(" ")
-            }
+            sb.append(genres.joinToString(separator = " "))
             return sb.toString()
         }
 
@@ -76,12 +73,7 @@ data class Subject(val rating: Rating,
             return if (directors.isEmpty()) {
                 ""
             } else {
-                val sb = StringBuilder()
-                for (director in directors) {
-                    sb.append(director.name)
-                    sb.append(" ")
-                }
-                FlippedApp.getInstance().getString(R.string.item_directors, sb.toString())
+                FlippedApp.getInstance().getString(R.string.item_directors, directors.joinToString(separator = " ", transform = { it.name }))
             }
         }
 
@@ -90,12 +82,7 @@ data class Subject(val rating: Rating,
             return if (casts.isEmpty()) {
                 ""
             } else {
-                val sb = StringBuilder()
-                for (cast in casts) {
-                    sb.append(cast.name)
-                    sb.append(" ")
-                }
-                FlippedApp.getInstance().getString(R.string.item_casts, sb.toString())
+                FlippedApp.getInstance().getString(R.string.item_casts, casts.joinToString(separator = " ", transform = { it.name }))
             }
         }
 

@@ -1,8 +1,6 @@
 package com.zhuwenhao.flipped.movie
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
@@ -51,11 +49,15 @@ class Top250Fragment : BaseLazyFragment() {
 
         adapter = Top250Adapter()
         adapter.setOnItemClickListener { adapter, _, position ->
-            try {
+            /*try {
                 val subject = adapter.data[position] as Subject
                 startActivity(Intent(Constants.DOU_BAN_ACTION, Uri.parse("${Constants.DOU_BAN_SUBJECT_URL}${subject.id}/?from=showing")))
             } catch (e: ActivityNotFoundException) {
-            }
+            }*/
+            val subject = adapter.data[position] as Subject
+            val intent = Intent(mContext, MovieDetailActivity::class.java)
+            intent.putExtra("id", subject.id)
+            startActivity(intent)
         }
         adapter.setLoadMoreView(CustomLoadMoreView())
         adapter.setOnLoadMoreListener({

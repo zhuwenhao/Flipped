@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:divider="?dividerHorizontal"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:theme="?actionBarTheme"
+        app:navigationIcon="@drawable/ic_close"
+        app:popupTheme="?actionBarPopupTheme" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="?dividerHorizontal"
+            android:dividerPadding="16dp"
+            android:orientation="vertical"
+            android:showDividers="middle">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/textSummary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:lineSpacingMultiplier="1.2"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                    android:textIsSelectable="true" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cast_and_credits"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="?android:textColorSecondary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/directors"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="?android:textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/textDirectors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textIsSelectable="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/casts"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textColor="?android:textColorPrimary" />
+
+                <TextView
+                    android:id="@+id/textCasts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/original_title"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textOriginalTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textIsSelectable="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/genres"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textGenres"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textIsSelectable="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/countries"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textCountries"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textIsSelectable="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/languages"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textLanguages"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textIsSelectable="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:baselineAligned="false">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pub_dates"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textPubDates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textIsSelectable="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/durations"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textColor="?android:textColorPrimary" />
+
+                        <TextView
+                            android:id="@+id/textDurations"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                            android:textIsSelectable="true" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:baselineAligned="false"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/aka"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textColor="?android:textColorPrimary" />
+
+                    <TextView
+                        android:id="@+id/textAka"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:textIsSelectable="true" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

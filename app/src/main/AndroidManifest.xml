@@ -24,6 +24,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".movie.MovieDetailActivity"
+            android:theme="@style/AppTheme.SubActivity" />
+        <activity
+            android:name=".movie.MovieIntroductionActivity"
+            android:theme="@style/AppTheme.SubActivity" />
+        <activity
             android:name=".bandwagon.activity.BandwagonActivity"
             android:label="@string/bandwagon"
             android:theme="@style/AppTheme.SubActivity" />

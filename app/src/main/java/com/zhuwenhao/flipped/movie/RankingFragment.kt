@@ -1,8 +1,6 @@
 package com.zhuwenhao.flipped.movie
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,11 +51,15 @@ class RankingFragment : BaseLazyFragment() {
 
         adapter = RankingAdapter()
         adapter.setOnItemClickListener { adapter, _, position ->
-            try {
+            /*try {
                 val subject = adapter.data[position] as Ranking.RankingSubject
                 startActivity(Intent(Constants.DOU_BAN_ACTION, Uri.parse("${Constants.DOU_BAN_SUBJECT_URL}${subject.subject.id}/?from=showing")))
             } catch (e: ActivityNotFoundException) {
-            }
+            }*/
+            val subject = adapter.data[position] as Ranking.RankingSubject
+            val intent = Intent(mContext, MovieDetailActivity::class.java)
+            intent.putExtra("id", subject.subject.id)
+            startActivity(intent)
         }
 
         recyclerView.layoutManager = LinearLayoutManager(mContext)

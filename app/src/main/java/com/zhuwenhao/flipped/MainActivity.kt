@@ -68,9 +68,6 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
         titles.add(getString(R.string.movie_top250))
         titles.add(getString(R.string.movie_weekly))
         titles.add(getString(R.string.movie_us_box))
-        for (title in titles) {
-            tabLayout.addTab(tabLayout.newTab().setText(title))
-        }
 
         inTheatersFragment = InTheatersFragment.newInstance()
         val comingSoonFragment = ComingSoonFragment.newInstance()

@@ -3,6 +3,7 @@ package com.zhuwenhao.flipped.movie
 import com.zhuwenhao.flipped.Constants
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface DouBanMovieApi {
@@ -21,4 +22,7 @@ interface DouBanMovieApi {
 
     @GET("us_box?apikey=" + Constants.DOU_BAN_API_KEY)
     fun getUsBox(): Observable<Ranking>
+
+    @GET("subject/{id}?apikey=" + Constants.DOU_BAN_API_KEY)
+    fun getMovieDetail(@Path("id") id: String): Observable<MovieDetail>
 }

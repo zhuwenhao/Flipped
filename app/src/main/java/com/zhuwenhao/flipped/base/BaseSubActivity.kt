@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.jaeger.library.StatusBarUtil
+import com.kingja.loadsir.callback.Callback
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.r0adkll.slidr.Slidr
@@ -25,8 +26,10 @@ abstract class BaseSubActivity : RxAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(provideLayoutId())
         mContext = this
-        Slidr.attach(this, SlidrConfig.Builder().edge(true).build())
-        StatusBarUtil.setColorForSwipeBack(this, ContextCompat.getColor(this, R.color.colorPrimaryDark), 0)
+        if (isSupportSwipeBack()) {
+            Slidr.attach(this, SlidrConfig.Builder().edge(isSwipeBackEdgeOnly()).build())
+            StatusBarUtil.setColorForSwipeBack(this, ContextCompat.getColor(this, R.color.colorPrimaryDark), 0)
+        }
         initView()
         initData()
     }
@@ -41,10 +44,18 @@ abstract class BaseSubActivity : RxAppCompatActivity() {
         loadService = LoadSir.getDefault().register(view)
     }
 
+    protected fun initLoadSir(view: View, listener: Callback.OnReloadListener) {
+        loadService = LoadSir.getDefault().register(view, listener)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> onBackPressed()
         }
         return super.onOptionsItemSelected(item)
     }
+
+    open fun isSupportSwipeBack() = true
+
+    open fun isSwipeBackEdgeOnly() = true
 }
