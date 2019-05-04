@@ -39,7 +39,7 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
 
     private lateinit var adapter: BandwagonAdapter
 
-    private lateinit var bBox: Box<com.zhuwenhao.flipped.bandwagon.Bandwagon>
+    private lateinit var bBox: Box<Bandwagon>
 
     private lateinit var dialogTextTitle: AutoCompleteTextView
     private lateinit var dialogTextVeId: AutoCompleteTextView
@@ -124,7 +124,7 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     }
 
     override fun initData() {
-        bBox = ObjectBox.boxStore.boxFor(com.zhuwenhao.flipped.bandwagon.Bandwagon::class.java)
+        bBox = ObjectBox.boxStore.boxFor(Bandwagon::class.java)
 
         adapter.setNewData(bBox.query().order(Bandwagon_.userOrder).build().find())
         adapter.notifyDataSetChanged()
@@ -186,4 +186,6 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     override fun afterTextChanged(s: Editable?) {
 
     }
+
+    override fun isSwipeBackEdgeOnly() = true
 }

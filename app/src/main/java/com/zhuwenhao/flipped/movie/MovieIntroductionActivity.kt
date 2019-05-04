@@ -36,6 +36,4 @@ class MovieIntroductionActivity : BaseSubActivity() {
         textDurations.text = movie.durations.joinToString(separator = " / ")
         textAka.text = movie.aka.joinToString(separator = " / ")
     }
-
-    override fun isSwipeBackEdgeOnly() = false
 }

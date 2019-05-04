@@ -57,5 +57,5 @@ abstract class BaseSubActivity : RxAppCompatActivity() {
 
     open fun isSupportSwipeBack() = true
 
-    open fun isSwipeBackEdgeOnly() = true
+    open fun isSwipeBackEdgeOnly() = false
 }
