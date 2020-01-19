@@ -54,24 +54,5 @@ class StringUtils {
                     mainlandDateTime.toString("yyyy年M月d日") + " " + mainlandDateTime.dayOfWeek().getAsShortText(Locale.CHINA)
             }
         }
-
-        fun formatIpAddresses(ipAddresses: List<String>): String {
-            val sb = StringBuilder()
-
-            for ((index, value) in ipAddresses.withIndex()) {
-                sb.append(value)
-                if (index < ipAddresses.size - 1)
-                    sb.append(",")
-            }
-            return sb.toString()
-        }
-
-        fun firstLetterToUpper(str: String): String {
-            val chars = str.toCharArray()
-            if (chars[0] in 'a'..'z') {
-                chars[0] = chars[0] - 32
-            }
-            return String(chars)
-        }
     }
 }

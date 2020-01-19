@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import com.kingja.loadsir.callback.Callback
 import com.kingja.loadsir.core.Transport
@@ -27,6 +28,8 @@ import kotlin.math.roundToInt
 
 class MovieDetailActivity : BaseSubActivity() {
 
+    private lateinit var commentAdapter: CommentAdapter
+
     override fun provideLayoutId(): Int {
         return R.layout.activity_movie_detail
     }
@@ -47,13 +50,17 @@ class MovieDetailActivity : BaseSubActivity() {
             getMovieDetail()
         })
         val transport = Transport { _, view ->
-            val progressBar = (view as LinearLayout).getChildAt(0)
-            val params = progressBar.layoutParams as LinearLayout.LayoutParams
-            params.topMargin = -dpToPx(200F)
-            progressBar.layoutParams = params
+            val layout = view as LinearLayout
+            layout.gravity = Gravity.CENTER_HORIZONTAL or Gravity.TOP
+            layout.setPadding(0, dpToPx(68F), 0, 0)
         }
         loadService.setCallBack(LoadingCallback::class.java, transport)
         loadService.setCallBack(ErrorCallback::class.java, transport)
+
+        commentAdapter = CommentAdapter()
+
+        commentRecyclerView.layoutManager = LinearLayoutManager(this)
+        commentRecyclerView.adapter = commentAdapter
     }
 
     override fun initData() {
@@ -62,7 +69,7 @@ class MovieDetailActivity : BaseSubActivity() {
 
     private fun getMovieDetail() {
         RetrofitFactory.newInstance(Constants.DOU_BAN_MOVIE_API_URL).create(DouBanMovieApi::class.java)
-                .getMovieDetail(intent.getStringExtra("id"))
+                .getMovieDetail(intent.getStringExtra("id")!!)
                 .compose(RxSchedulers.io2Main())
                 .compose(bindUntilEvent(ActivityEvent.DESTROY))
                 .subscribe(object : RxObserver<MovieDetail>() {
@@ -115,6 +122,9 @@ class MovieDetailActivity : BaseSubActivity() {
                             intent.putExtra("movie", t)
                             startActivity(intent)
                         }
+
+                        commentAdapter.setNewData(t.popularComments)
+                        layoutComment.visibility = if (t.popularComments.isEmpty()) View.GONE else View.VISIBLE
 
                         loadService.showSuccess()
                     }

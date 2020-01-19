@@ -9,60 +9,26 @@ import com.trello.rxlifecycle3.components.support.RxFragment
 
 abstract class BaseLazyFragment : RxFragment() {
 
-    private var mIsVisible: Boolean = false
-    private var mIsPrepared: Boolean = false
-    private var mIsFirstLoad: Boolean = true
-
     protected lateinit var mContext: Context
+
+    private var isFirstLoad = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mContext = context!!
-        mIsFirstLoad = true
         return inflater.inflate(provideLayoutId(), container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        mIsPrepared = true
-        lazyLoad()
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        if (userVisibleHint) {
-            mIsVisible = true
-            onVisible()
-        } else {
-            mIsVisible = false
-            onInvisible()
+    override fun onResume() {
+        super.onResume()
+        if (isFirstLoad) {
+            isFirstLoad = false
+            initData()
         }
-    }
-
-    override fun onHiddenChanged(hidden: Boolean) {
-        super.onHiddenChanged(hidden)
-        if (!hidden) {
-            mIsVisible = true
-            onVisible()
-        } else {
-            mIsVisible = false
-            onInvisible()
-        }
-    }
-
-    protected fun onVisible() {
-        lazyLoad()
-    }
-
-    protected fun onInvisible() {
-    }
-
-    protected fun lazyLoad() {
-        if (!mIsPrepared || !mIsVisible || !mIsFirstLoad)
-            return
-
-        mIsFirstLoad = false
-        initData()
     }
 
     protected abstract fun provideLayoutId(): Int

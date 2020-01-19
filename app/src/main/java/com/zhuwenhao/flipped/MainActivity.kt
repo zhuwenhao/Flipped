@@ -113,7 +113,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
 
     }
 
-    override fun onItemClick(view: View?, position: Int, drawerItem: IDrawerItem<*, *>): Boolean {
+    override fun onItemClick(view: View?, position: Int, drawerItem: IDrawerItem<*>): Boolean {
         when (drawerItem.identifier) {
             DRAWER_BANDWAGON -> startActivity(Intent(this, BandwagonActivity::class.java))
         }
@@ -134,7 +134,7 @@ class MainActivity : BaseActivity(), Drawer.OnDrawerItemClickListener {
                 .setShortLabel(getString(R.string.bandwagon))
                 .setIntent(Intent(Intent.ACTION_VIEW, Uri.EMPTY, this, BandwagonActivity::class.java).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP))
                 .build()
-        shortcutManager.dynamicShortcuts = arrayListOf(bandwagon)
+        shortcutManager?.dynamicShortcuts = arrayListOf(bandwagon)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

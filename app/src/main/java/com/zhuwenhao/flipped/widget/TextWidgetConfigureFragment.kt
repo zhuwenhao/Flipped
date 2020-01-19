@@ -47,7 +47,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun initPref() {
-        prefTitle = findPreference("prefTitle")
+        prefTitle = findPreference("prefTitle")!!
         prefTitle.setOnPreferenceClickListener {
             MaterialDialog(context!!).show {
                 title(text = it.title.toString())
@@ -63,7 +63,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         textSizeList = context!!.resources.getTextArray(R.array.pref_list_text_size)
 
-        prefTitleSize = findPreference("prefTitleSize")
+        prefTitleSize = findPreference("prefTitleSize")!!
         prefTitleSize.summary = textSizeList[0]
         prefTitleSize.setOnPreferenceClickListener {
             showTextSizeSingleChoiceDialog(it)
@@ -71,7 +71,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefTitleColor = findPreference("prefTitleColor")
+        prefTitleColor = findPreference("prefTitleColor")!!
         prefTitleColor.summary = Color.WHITE.toColorHex()
         prefTitleColor.setOnPreferenceClickListener {
             showColorChooserDialog(it)
@@ -81,7 +81,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         textAlignmentList = context!!.resources.getTextArray(R.array.pref_list_text_alignment)
 
-        prefAlignment = findPreference("prefAlignment")
+        prefAlignment = findPreference("prefAlignment")!!
         prefAlignment.summary = textAlignmentList[textAlignment]
         prefAlignment.setOnPreferenceClickListener {
             MaterialDialog(context!!).show {

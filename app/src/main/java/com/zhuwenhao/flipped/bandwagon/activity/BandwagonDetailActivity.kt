@@ -14,12 +14,12 @@ import com.zhuwenhao.flipped.ext.formatByte
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
-import com.zhuwenhao.flipped.util.StringUtils
 import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import io.objectbox.Box
 import kotlinx.android.synthetic.main.activity_bandwagon_detail.*
 import kotlinx.android.synthetic.main.layout_toolbar.*
 import org.joda.time.DateTime
+import java.util.*
 
 class BandwagonDetailActivity : BaseSubActivity() {
 
@@ -69,12 +69,12 @@ class BandwagonDetailActivity : BaseSubActivity() {
 
                         if (t.error == 0) {
                             textHostname.text = t.hostname
-                            textVmType.text = t.vmType.toUpperCase()
+                            textVmType.text = t.vmType.toUpperCase(Locale.getDefault())
                             textNodeLocation.text = t.nodeLocation
-                            textOs.text = StringUtils.firstLetterToUpper(t.os)
-                            textIpAddresses.text = StringUtils.formatIpAddresses(t.ipAddresses)
+                            textOs.text = t.os.capitalize()
+                            textIpAddresses.text = t.ipAddresses.joinToString(separator = ",")
                             textSshPort.text = t.sshPort
-                            textStatus.text = StringUtils.firstLetterToUpper(t.status)
+                            textStatus.text = t.status.capitalize()
 
                             textCpuLoad.text = if (t.vmType == "kvm") getString(R.string.cpu_load_info_kvm, t.loadAverage) else getString(R.string.cpu_load_info_ovz, t.vzStatus.npRoc, t.vzStatus.loadAverage)
 

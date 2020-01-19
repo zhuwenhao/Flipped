@@ -2,14 +2,16 @@ package com.zhuwenhao.flipped.movie
 
 import android.content.Intent
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.github.magiepooh.recycleritemdecoration.ItemDecorations
+import com.fondesa.recyclerviewdivider.RecyclerViewDivider
 import com.kingja.loadsir.core.LoadService
 import com.kingja.loadsir.core.LoadSir
 import com.trello.rxlifecycle3.android.FragmentEvent
 import com.zhuwenhao.flipped.Constants
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.base.BaseLazyFragment
+import com.zhuwenhao.flipped.ext.dpToPx
 import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
@@ -49,11 +51,6 @@ class Top250Fragment : BaseLazyFragment() {
 
         adapter = Top250Adapter()
         adapter.setOnItemClickListener { adapter, _, position ->
-            /*try {
-                val subject = adapter.data[position] as Subject
-                startActivity(Intent(Constants.DOU_BAN_ACTION, Uri.parse("${Constants.DOU_BAN_SUBJECT_URL}${subject.id}/?from=showing")))
-            } catch (e: ActivityNotFoundException) {
-            }*/
             val subject = adapter.data[position] as Subject
             val intent = Intent(mContext, MovieDetailActivity::class.java)
             intent.putExtra("id", subject.id)
@@ -65,7 +62,12 @@ class Top250Fragment : BaseLazyFragment() {
         }, recyclerView)
 
         recyclerView.layoutManager = LinearLayoutManager(mContext)
-        recyclerView.addItemDecoration(ItemDecorations.vertical(mContext).type(0, R.drawable.item_decoration_h_1_left_100).create())
+        RecyclerViewDivider.with(mContext)
+                .color(ContextCompat.getColor(mContext, R.color.divider))
+                .inset(mContext.dpToPx(100F), 0)
+                .size(mContext.dpToPx(1F))
+                .hideLastDivider()
+                .build().addTo(recyclerView)
         recyclerView.adapter = adapter
     }
 

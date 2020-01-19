@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.annotation.AttrRes
 import com.zhuwenhao.flipped.R
 import com.zhuwenhao.flipped.ext.toColorHex
 
@@ -53,7 +52,7 @@ class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLa
         sbBlue = findViewById(R.id.sbBlue)
         textBlue = findViewById(R.id.textBlue)
 
-        sbAlpha.tint(resolveColor(android.R.attr.textColorSecondary))
+        sbAlpha.tint(resolveColor())
         sbAlpha.setOnSeekBarChangeListener(this)
         sbRed.tint(Color.RED)
         sbRed.setOnSeekBarChangeListener(this)
@@ -94,8 +93,8 @@ class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLa
 
     }
 
-    private fun resolveColor(@AttrRes attr: Int): Int {
-        val a = context.theme.obtainStyledAttributes(intArrayOf(attr))
+    private fun resolveColor(): Int {
+        val a = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorSecondary))
         try {
             return a.getColor(0, 0)
         } finally {
@@ -117,6 +116,7 @@ class ColorChooserView(context: Context, attrs: AttributeSet? = null) : LinearLa
         Color.BLACK
     }
 
+    @Suppress("DEPRECATION")
     private fun SeekBar.tint(color: Int) {
         progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         thumb.setColorFilter(color, PorterDuff.Mode.SRC_IN)

@@ -58,7 +58,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun initPref() {
-        prefTitle = findPreference("prefTitle")
+        prefTitle = findPreference("prefTitle")!!
         prefTitle.setOnPreferenceClickListener {
             MaterialDialog(context!!).show {
                 title(text = it.title.toString())
@@ -72,7 +72,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefStartDate = findPreference("prefStartDate")
+        prefStartDate = findPreference("prefStartDate")!!
         prefStartDate.summary = DateTime.now().toString("yyyy-MM-dd")
         prefStartDate.setOnPreferenceClickListener {
             val dateTime = DateTime.parse(it.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd"))
@@ -87,7 +87,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         textSizeList = context!!.resources.getTextArray(R.array.pref_list_text_size)
 
-        prefTitleSize = findPreference("prefTitleSize")
+        prefTitleSize = findPreference("prefTitleSize")!!
         prefTitleSize.summary = textSizeList[0]
         prefTitleSize.setOnPreferenceClickListener {
             showTextSizeSingleChoiceDialog(it)
@@ -95,7 +95,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefTitleColor = findPreference("prefTitleColor")
+        prefTitleColor = findPreference("prefTitleColor")!!
         prefTitleColor.summary = Color.WHITE.toColorHex()
         prefTitleColor.setOnPreferenceClickListener {
             showColorChooserDialog(it)
@@ -103,7 +103,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefDaysColorSameAsTitleColor = findPreference("prefDaysColorSameAsTitleColor") as SwitchPreference
+        prefDaysColorSameAsTitleColor = findPreference("prefDaysColorSameAsTitleColor")!!
         prefDaysColorSameAsTitleColor.isChecked = false
         prefDaysColorSameAsTitleColor.setOnPreferenceClickListener {
             val enabled = prefDaysColorSameAsTitleColor.isChecked.not()
@@ -117,7 +117,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefDaysSize = findPreference("prefDaysSize")
+        prefDaysSize = findPreference("prefDaysSize")!!
         prefDaysSize.summary = textSizeList[1]
         prefDaysSize.setOnPreferenceClickListener {
             showTextSizeSingleChoiceDialog(it)
@@ -125,7 +125,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefDaysColor = findPreference("prefDaysColor")
+        prefDaysColor = findPreference("prefDaysColor")!!
         prefDaysColor.summary = Color.WHITE.toColorHex()
         prefDaysColor.setOnPreferenceClickListener {
             showColorChooserDialog(it)
@@ -133,7 +133,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        prefTitleColorSameAsDaysColor = findPreference("prefTitleColorSameAsDaysColor") as SwitchPreference
+        prefTitleColorSameAsDaysColor = findPreference("prefTitleColorSameAsDaysColor")!!
         prefTitleColorSameAsDaysColor.isChecked = false
         prefTitleColorSameAsDaysColor.setOnPreferenceClickListener {
             val enabled = prefTitleColorSameAsDaysColor.isChecked.not()
@@ -149,7 +149,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         textAlignmentList = context!!.resources.getTextArray(R.array.pref_list_text_alignment)
 
-        prefAlignment = findPreference("prefAlignment")
+        prefAlignment = findPreference("prefAlignment")!!
         prefAlignment.summary = textAlignmentList[textAlignment]
         prefAlignment.setOnPreferenceClickListener {
             MaterialDialog(context!!).show {

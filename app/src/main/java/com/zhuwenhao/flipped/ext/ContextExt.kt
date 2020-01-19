@@ -2,8 +2,8 @@ package com.zhuwenhao.flipped.ext
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import android.util.TypedValue
+import androidx.preference.PreferenceManager
 
 /**
  * dp to px

@@ -7,6 +7,7 @@ data class MovieDetail(val rating: Rating,
                        @SerializedName("original_title") val originalTitle: String,
                        val images: Image,
                        val year: String,
+                       @SerializedName("popular_comments") val popularComments: List<Comments>,
                        val title: String,
                        val languages: List<String>,
                        @SerializedName("pubdates") val pubDates: List<String>,
@@ -38,6 +39,25 @@ data class MovieDetail(val rating: Rating,
     data class Image(val small: String,
                      val large: String,
                      val medium: String) : Serializable
+
+    data class Comments(val rating: Rating1,
+                        @SerializedName("useful_count") val usefulCount: String,
+                        val author: Author,
+                        @SerializedName("subject_id") val subjectId: String,
+                        val content: String,
+                        @SerializedName("created_at") val createdAt: String,
+                        val id: String) : Serializable
+
+    data class Rating1(val max: Int,
+                       val value: Int,
+                       val min: Int) : Serializable
+
+    data class Author(val uid: String,
+                      val avatar: String,
+                      val signature: String,
+                      val alt: String,
+                      val id: String,
+                      val name: String) : Serializable
 
     data class Trailer(val medium: String,
                        val title: String,
