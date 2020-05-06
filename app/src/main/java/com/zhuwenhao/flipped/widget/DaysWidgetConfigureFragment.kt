@@ -33,6 +33,7 @@ import org.joda.time.format.DateTimeFormat
 class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
 
     private lateinit var prefTitle: Preference
+    private lateinit var prefCountdown: SwitchPreference
     private lateinit var prefStartDate: Preference
     private lateinit var prefTitleSize: Preference
     private lateinit var prefTitleColor: Preference
@@ -72,14 +73,31 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
+        prefCountdown = findPreference("prefCountdown")!!
+        prefCountdown.isChecked = false
+        prefCountdown.setOnPreferenceClickListener {
+            prefStartDate.title = getString(if (prefCountdown.isChecked) R.string.end_date else R.string.start_date)
+            prefStartDate.summary = null
+
+            true
+        }
+
         prefStartDate = findPreference("prefStartDate")!!
         prefStartDate.summary = DateTime.now().toString("yyyy-MM-dd")
         prefStartDate.setOnPreferenceClickListener {
-            val dateTime = DateTime.parse(it.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd"))
+            val dateTime = if (it.summary == null) {
+                DateTime.now()
+            } else {
+                DateTime.parse(it.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd"))
+            }
             val dialog = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 it.summary = DateTime(year, month + 1, dayOfMonth, 0, 0).toString("yyyy-MM-dd")
             }, dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
-            dialog.datePicker.maxDate = System.currentTimeMillis()
+            if (prefCountdown.isChecked) {
+                dialog.datePicker.minDate = System.currentTimeMillis()
+            } else {
+                dialog.datePicker.maxDate = System.currentTimeMillis()
+            }
             dialog.show()
 
             true
@@ -172,6 +190,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         if (daysWidget != null) {
             prefTitle.summary = daysWidget!!.title
+            prefCountdown.isChecked = daysWidget!!.countdown
             prefStartDate.summary = daysWidget!!.startDate
             prefTitleSize.summary = daysWidget!!.titleSize
             prefTitleColor.summary = daysWidget!!.titleColor
@@ -225,37 +244,45 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         when (item.itemId) {
             android.R.id.home -> activity?.onBackPressed()
             R.id.menu_apply -> {
-                if (prefTitle.summary == null) {
-                    Toast.makeText(context, R.string.widget_title_check_hint, Toast.LENGTH_SHORT).show()
-                } else {
-                    val colorSameAs = when {
-                        prefDaysColorSameAsTitleColor.isChecked -> 1
-                        prefTitleColorSameAsDaysColor.isChecked -> 2
-                        else -> 0
+                when {
+                    prefTitle.summary == null -> {
+                        Toast.makeText(context, R.string.widget_title_check_hint, Toast.LENGTH_SHORT).show()
                     }
+                    prefStartDate.summary == null -> {
+                        Toast.makeText(context, R.string.widget_date_check_hint, Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        val colorSameAs = when {
+                            prefDaysColorSameAsTitleColor.isChecked -> 1
+                            prefTitleColorSameAsDaysColor.isChecked -> 2
+                            else -> 0
+                        }
 
-                    if (daysWidget == null) {
-                        dwBox.put(DaysWidget(widgetId = widgetId,
-                                title = prefTitle.summary.toString(),
-                                startDate = prefStartDate.summary.toString(),
-                                titleSize = prefTitleSize.summary.toString(),
-                                titleColor = prefTitleColor.summary.toString(),
-                                daysSize = prefDaysSize.summary.toString(),
-                                daysColor = prefDaysColor.summary.toString(),
-                                colorSameAs = colorSameAs,
-                                textAlignment = textAlignment))
-                    } else {
-                        daysWidget?.title = prefTitle.summary.toString()
-                        daysWidget?.startDate = prefStartDate.summary.toString()
-                        daysWidget?.titleSize = prefTitleSize.summary.toString()
-                        daysWidget?.titleColor = prefTitleColor.summary.toString()
-                        daysWidget?.daysSize = prefDaysSize.summary.toString()
-                        daysWidget?.daysColor = prefDaysColor.summary.toString()
-                        daysWidget?.colorSameAs = colorSameAs
-                        daysWidget?.textAlignment = textAlignment
-                        dwBox.put(daysWidget!!)
+                        if (daysWidget == null) {
+                            dwBox.put(DaysWidget(widgetId = widgetId,
+                                    title = prefTitle.summary.toString(),
+                                    countdown = prefCountdown.isChecked,
+                                    startDate = prefStartDate.summary.toString(),
+                                    titleSize = prefTitleSize.summary.toString(),
+                                    titleColor = prefTitleColor.summary.toString(),
+                                    daysSize = prefDaysSize.summary.toString(),
+                                    daysColor = prefDaysColor.summary.toString(),
+                                    colorSameAs = colorSameAs,
+                                    textAlignment = textAlignment))
+                        } else {
+                            daysWidget?.title = prefTitle.summary.toString()
+                            daysWidget?.countdown = prefCountdown.isChecked
+                            daysWidget?.startDate = prefStartDate.summary.toString()
+                            daysWidget?.titleSize = prefTitleSize.summary.toString()
+                            daysWidget?.titleColor = prefTitleColor.summary.toString()
+                            daysWidget?.daysSize = prefDaysSize.summary.toString()
+                            daysWidget?.daysColor = prefDaysColor.summary.toString()
+                            daysWidget?.colorSameAs = colorSameAs
+                            daysWidget?.textAlignment = textAlignment
+                            dwBox.put(daysWidget!!)
+                        }
+                        updateWidgetUI()
                     }
-                    updateWidgetUI()
                 }
                 return true
             }
@@ -284,7 +311,15 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         views.setTextViewText(R.id.textTitle, prefTitle.summary.toString())
         views.setTextViewTextSize(R.id.textTitle, TypedValue.COMPLEX_UNIT_SP, prefTitleSize.summary.toString().toFloat())
         views.setTextColor(R.id.textTitle, Color.parseColor(prefTitleColor.summary.toString()))
-        views.setTextViewText(R.id.textDays, context!!.getString(R.string.days_widget_days, Period(DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1))
+        views.setTextViewText(R.id.textDays, if (prefCountdown.isChecked) {
+            if (prefStartDate.summary == DateTime.now().toString("yyyy-MM-dd")) {
+                context!!.getString(R.string.days_widget_days_today)
+            } else {
+                context!!.getString(R.string.days_widget_days_left, Period(DateTime.now(), DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), PeriodType.days()).days + 1)
+            }
+        } else {
+            context!!.getString(R.string.days_widget_days, Period(DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1)
+        })
         views.setTextViewTextSize(R.id.textDays, TypedValue.COMPLEX_UNIT_SP, prefDaysSize.summary.toString().toFloat())
         views.setTextColor(R.id.textDays, Color.parseColor(prefDaysColor.summary.toString()))
 

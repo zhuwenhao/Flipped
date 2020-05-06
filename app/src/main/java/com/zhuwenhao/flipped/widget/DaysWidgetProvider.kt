@@ -49,7 +49,15 @@ class DaysWidgetProvider : AppWidgetProvider() {
                     views.setTextViewText(R.id.textTitle, dw.title)
                     views.setTextViewTextSize(R.id.textTitle, TypedValue.COMPLEX_UNIT_SP, dw.titleSize.toFloat())
                     views.setTextColor(R.id.textTitle, Color.parseColor(dw.titleColor))
-                    views.setTextViewText(R.id.textDays, context.getString(R.string.days_widget_days, Period(DateTime.parse(dw.startDate, DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1))
+                    views.setTextViewText(R.id.textDays, if (dw.countdown) {
+                        if (dw.startDate == DateTime.now().toString("yyyy-MM-dd")) {
+                            context.getString(R.string.days_widget_days_today)
+                        } else {
+                            context.getString(R.string.days_widget_days_left, Period(DateTime.now(), DateTime.parse(dw.startDate, DateTimeFormat.forPattern("yyyy-MM-dd")), PeriodType.days()).days + 1)
+                        }
+                    } else {
+                        context.getString(R.string.days_widget_days, Period(DateTime.parse(dw.startDate, DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1)
+                    })
                     views.setTextViewTextSize(R.id.textDays, TypedValue.COMPLEX_UNIT_SP, dw.daysSize.toFloat())
                     views.setTextColor(R.id.textDays, Color.parseColor(dw.daysColor))
 

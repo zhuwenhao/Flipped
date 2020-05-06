@@ -5,6 +5,10 @@
         android:key="prefTitle"
         android:title="@string/title" />
 
+    <SwitchPreference
+        android:key="prefCountdown"
+        android:title="@string/countdown" />
+
     <Preference
         android:key="prefStartDate"
         android:title="@string/start_date" />

@@ -7,6 +7,7 @@ import io.objectbox.annotation.Id
 data class DaysWidget(@Id var id: Long = 0,
                       val widgetId: Int,
                       var title: String,
+                      var countdown: Boolean,
                       var startDate: String,
                       var titleSize: String,
                       var titleColor: String,
