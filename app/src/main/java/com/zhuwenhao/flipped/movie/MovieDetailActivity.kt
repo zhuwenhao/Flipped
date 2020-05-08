@@ -123,7 +123,7 @@ class MovieDetailActivity : BaseSubActivity() {
                             startActivity(intent)
                         }
 
-                        commentAdapter.setNewData(t.popularComments)
+                        commentAdapter.setList(t.popularComments)
                         layoutComment.visibility = if (t.popularComments.isEmpty()) View.GONE else View.VISIBLE
 
                         loadService.showSuccess()

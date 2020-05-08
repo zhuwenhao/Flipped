@@ -30,6 +30,12 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/loadMoreComplete"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <FrameLayout
         android:id="@+id/loadMoreEnd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -19,7 +19,6 @@ import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.internal.button.DialogActionButton
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback
 import com.chad.library.adapter.base.listener.OnItemDragListener
 import com.chad.library.adapter.base.listener.OnItemSwipeListener
 import com.github.magiepooh.recycleritemdecoration.ItemDecorations
@@ -59,17 +58,13 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
             intent.putExtra("bandwagon", adapter.data[position])
             startActivity(intent)
         }
+        adapter.addChildClickViewIds(R.id.imgEdit)
         adapter.setOnItemChildClickListener { _, _, position ->
             showEditDialog(true, position)
         }
 
-        val itemDragAndSwipeCallback = ItemDragAndSwipeCallback(adapter)
-        itemDragAndSwipeCallback.setSwipeMoveFlags(ItemTouchHelper.START or ItemTouchHelper.END)
-        itemDragAndSwipeCallback.setDragMoveFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN)
-        val itemTouchHelper = ItemTouchHelper(itemDragAndSwipeCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-        adapter.enableSwipeItem()
-        adapter.setOnItemSwipeListener(object : OnItemSwipeListener {
+        adapter.draggableModule.isSwipeEnabled = true
+        adapter.draggableModule.setOnItemSwipeListener(object : OnItemSwipeListener {
             override fun onItemSwipeStart(viewHolder: RecyclerView.ViewHolder?, pos: Int) {
 
             }
@@ -91,8 +86,8 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
                 canvas.drawBitmap(icon, if (dX > 0) itemView.left.toFloat() + margin else -dX - margin - icon.width, (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2, null)
             }
         })
-        adapter.enableDragItem(itemTouchHelper)
-        adapter.setOnItemDragListener(object : OnItemDragListener {
+        adapter.draggableModule.isDragEnabled = true
+        adapter.draggableModule.setOnItemDragListener(object : OnItemDragListener {
             override fun onItemDragMoving(source: RecyclerView.ViewHolder?, from: Int, target: RecyclerView.ViewHolder?, to: Int) {
                 val fromB = adapter.data[from]
                 val toB = adapter.data[to]
@@ -113,6 +108,7 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
 
             }
         })
+        adapter.draggableModule.itemTouchHelperCallback.setSwipeMoveFlags(ItemTouchHelper.START or ItemTouchHelper.END)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.addItemDecoration(ItemDecorations.vertical(this).type(0, R.drawable.item_decoration_h_1).create())
@@ -126,7 +122,7 @@ class BandwagonActivity : BaseSubActivity(), TextWatcher {
     override fun initData() {
         bBox = ObjectBox.boxStore.boxFor(Bandwagon::class.java)
 
-        adapter.setNewData(bBox.query().order(Bandwagon_.userOrder).build().find())
+        adapter.setList(bBox.query().order(Bandwagon_.userOrder).build().find())
         adapter.notifyDataSetChanged()
     }
 

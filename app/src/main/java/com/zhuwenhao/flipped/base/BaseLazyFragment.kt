@@ -14,7 +14,7 @@ abstract class BaseLazyFragment : RxFragment() {
     private var isFirstLoad = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mContext = context!!
+        mContext = requireContext()
         return inflater.inflate(provideLayoutId(), container, false)
     }
 

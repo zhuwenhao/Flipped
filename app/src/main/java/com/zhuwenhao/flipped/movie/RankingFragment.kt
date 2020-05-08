@@ -75,7 +75,7 @@ class RankingFragment : BaseLazyFragment() {
 
     private fun getRanking() {
         val api = RetrofitFactory.newInstance(Constants.DOU_BAN_MOVIE_API_URL).create(DouBanMovieApi::class.java)
-        val observable = when (arguments!!.getInt("flag", 1)) {
+        val observable = when (requireArguments().getInt("flag", 1)) {
             1 -> api.getWeekly()
             2 -> api.getUsBox()
             else -> api.getWeekly()
@@ -91,7 +91,7 @@ class RankingFragment : BaseLazyFragment() {
 
                         swipeRefreshLayout.isRefreshing = false
 
-                        adapter.setNewData(t.subjects)
+                        adapter.setList(t.subjects)
 
                         if (t.subjects.isEmpty()) {
                             loadService.showCallback(EmptyCallback::class.java)

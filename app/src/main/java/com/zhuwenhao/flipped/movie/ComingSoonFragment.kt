@@ -14,7 +14,6 @@ import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
 import com.zhuwenhao.flipped.util.StringUtils
-import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
 import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import io.reactivex.Observable
@@ -64,10 +63,9 @@ class ComingSoonFragment : BaseLazyFragment() {
             intent.putExtra("id", subject.id)
             startActivity(intent)
         }
-        adapter.setLoadMoreView(CustomLoadMoreView())
-        adapter.setOnLoadMoreListener({
+        adapter.loadMoreModule.setOnLoadMoreListener {
             getComingSoon(false)
-        }, recyclerView)
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         recyclerView.addItemDecoration(PinnedHeaderItemDecoration.Builder(Subject.TYPE_HEADER)
@@ -84,7 +82,7 @@ class ComingSoonFragment : BaseLazyFragment() {
 
     private fun getComingSoon(isRefresh: Boolean) {
         if (isRefresh) {
-            adapter.setEnableLoadMore(false)
+            adapter.loadMoreModule.isEnableLoadMore = false
         } else {
             swipeRefreshLayout.isEnabled = false
         }
@@ -107,17 +105,17 @@ class ComingSoonFragment : BaseLazyFragment() {
                                 loadService.showCallback(ErrorCallback::class.java)
                             }
                             swipeRefreshLayout.isRefreshing = false
-                            adapter.setEnableLoadMore(true)
+                            adapter.loadMoreModule.isEnableLoadMore = true
                         } else {
                             swipeRefreshLayout.isEnabled = true
-                            adapter.loadMoreFail()
+                            adapter.loadMoreModule.loadMoreFail()
                         }
                     }
                 })
     }
 
     private fun formatComingSoon(isRefresh: Boolean, movie: Movie) {
-        Observable.create(ObservableOnSubscribe<List<Subject>> { emitter ->
+        Observable.create(ObservableOnSubscribe<MutableList<Subject>> { emitter ->
             for (subject in movie.subjects) {
                 subject.mainlandDate = StringUtils.getMainlandDate(subject.pubDates)
                 subject.mainlandDateTime = StringUtils.getMainlandDateTime(subject.mainlandDate)
@@ -146,7 +144,7 @@ class ComingSoonFragment : BaseLazyFragment() {
             emitter.onNext(subjectList)
             emitter.onComplete()
         }).compose(RxSchedulers.io2Main()).compose(bindUntilEvent(FragmentEvent.DESTROY))
-                .subscribe(object : Observer<List<Subject>> {
+                .subscribe(object : Observer<MutableList<Subject>> {
                     override fun onComplete() {
 
                     }
@@ -155,7 +153,7 @@ class ComingSoonFragment : BaseLazyFragment() {
 
                     }
 
-                    override fun onNext(subjectList: List<Subject>) {
+                    override fun onNext(subjectList: MutableList<Subject>) {
                         if (isRefresh) {
                             if (isFirst) {
                                 isFirst = false
@@ -166,11 +164,11 @@ class ComingSoonFragment : BaseLazyFragment() {
 
                             swipeRefreshLayout.isRefreshing = false
 
-                            adapter.setNewData(subjectList)
+                            adapter.setList(subjectList)
                             if (adapter.itemCount < pageSize)
-                                adapter.loadMoreEnd()
+                                adapter.loadMoreModule.loadMoreEnd()
                             else
-                                adapter.setEnableLoadMore(true)
+                                adapter.loadMoreModule.isEnableLoadMore = true
 
                             if (subjectList.isEmpty()) {
                                 loadService.showCallback(EmptyCallback::class.java)
@@ -185,9 +183,9 @@ class ComingSoonFragment : BaseLazyFragment() {
                             adapter.addData(subjectList)
 
                             if ((currentPage + 1) * pageSize >= movie.total) {
-                                adapter.loadMoreEnd()
+                                adapter.loadMoreModule.loadMoreEnd()
                             } else {
-                                adapter.loadMoreComplete()
+                                adapter.loadMoreModule.loadMoreComplete()
                             }
                         }
                     }
@@ -201,10 +199,10 @@ class ComingSoonFragment : BaseLazyFragment() {
                                 loadService.showCallback(ErrorCallback::class.java)
                             }
                             swipeRefreshLayout.isRefreshing = false
-                            adapter.setEnableLoadMore(true)
+                            adapter.loadMoreModule.isEnableLoadMore = true
                         } else {
                             swipeRefreshLayout.isEnabled = true
-                            adapter.loadMoreFail()
+                            adapter.loadMoreModule.loadMoreFail()
                         }
                     }
                 })

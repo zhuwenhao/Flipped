@@ -10,47 +10,63 @@
       "properties": [
         {
           "id": "1:9012426258418205768",
-          "name": "id"
+          "name": "id",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:7070612608396721479",
-          "name": "widgetId"
+          "name": "widgetId",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "3:1873360002081191796",
-          "name": "title"
+          "name": "title",
+          "type": 9
         },
         {
           "id": "4:8688990534674830504",
-          "name": "startDate"
+          "name": "startDate",
+          "type": 9
         },
         {
           "id": "5:2629373017714885548",
-          "name": "titleSize"
+          "name": "titleSize",
+          "type": 9
         },
         {
           "id": "6:716036296787541266",
-          "name": "titleColor"
+          "name": "titleColor",
+          "type": 9
         },
         {
           "id": "7:8772825936492038328",
-          "name": "daysSize"
+          "name": "daysSize",
+          "type": 9
         },
         {
           "id": "8:2856652436298828136",
-          "name": "daysColor"
+          "name": "daysColor",
+          "type": 9
         },
         {
           "id": "9:7874009690155504693",
-          "name": "textAlignment"
+          "name": "textAlignment",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "10:757731644476357384",
-          "name": "colorSameAs"
+          "name": "colorSameAs",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "11:118879285544037623",
-          "name": "countdown"
+          "name": "countdown",
+          "type": 1,
+          "flags": 4
         }
       ],
       "relations": []
@@ -62,27 +78,36 @@
       "properties": [
         {
           "id": "1:2715567705596305093",
-          "name": "id"
+          "name": "id",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:3358593839141948542",
-          "name": "widgetId"
+          "name": "widgetId",
+          "type": 5,
+          "flags": 4
         },
         {
           "id": "3:4470477726059110251",
-          "name": "title"
+          "name": "title",
+          "type": 9
         },
         {
           "id": "4:2254225534991585203",
-          "name": "titleSize"
+          "name": "titleSize",
+          "type": 9
         },
         {
           "id": "5:8119879962251080348",
-          "name": "titleColor"
+          "name": "titleColor",
+          "type": 9
         },
         {
           "id": "6:8751004300909324410",
-          "name": "textAlignment"
+          "name": "textAlignment",
+          "type": 5,
+          "flags": 4
         }
       ],
       "relations": []
@@ -94,31 +119,40 @@
       "properties": [
         {
           "id": "1:8467107885685895810",
-          "name": "id"
+          "name": "id",
+          "type": 6,
+          "flags": 1
         },
         {
           "id": "2:2992870608884076896",
-          "name": "title"
+          "name": "title",
+          "type": 9
         },
         {
           "id": "3:6786096571276014536",
-          "name": "veId"
+          "name": "veId",
+          "type": 9
         },
         {
           "id": "4:946168252733548379",
-          "name": "apiKey"
+          "name": "apiKey",
+          "type": 9
         },
         {
           "id": "5:5234527030460801594",
-          "name": "ipAddresses"
+          "name": "ipAddresses",
+          "type": 9
         },
         {
           "id": "6:6496176410964624677",
-          "name": "nodeLocation"
+          "name": "nodeLocation",
+          "type": 9
         },
         {
           "id": "7:6458946106473179074",
-          "name": "userOrder"
+          "name": "userOrder",
+          "type": 5,
+          "flags": 4
         }
       ],
       "relations": []
@@ -128,8 +162,8 @@
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
-  "modelVersion": 4,
-  "modelVersionParserMinimum": 4,
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
   "retiredEntityUids": [
     2713427470167490007,
     6733453954218781222

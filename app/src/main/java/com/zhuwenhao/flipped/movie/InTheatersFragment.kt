@@ -19,7 +19,6 @@ import com.zhuwenhao.flipped.http.RetrofitFactory
 import com.zhuwenhao.flipped.http.RxObserver
 import com.zhuwenhao.flipped.http.RxSchedulers
 import com.zhuwenhao.flipped.util.StringUtils
-import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
 import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import kotlinx.android.synthetic.main.fragment_movie_subject_list.*
@@ -62,10 +61,9 @@ class InTheatersFragment : BaseLazyFragment() {
             intent.putExtra("id", subject.id)
             startActivity(intent)
         }
-        adapter.setLoadMoreView(CustomLoadMoreView())
-        adapter.setOnLoadMoreListener({
+        adapter.loadMoreModule.setOnLoadMoreListener {
             getInTheaters(false)
-        }, recyclerView)
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(mContext)
         RecyclerViewDivider.with(mContext)
@@ -83,7 +81,7 @@ class InTheatersFragment : BaseLazyFragment() {
 
     private fun getInTheaters(isRefresh: Boolean) {
         if (isRefresh) {
-            adapter.setEnableLoadMore(false)
+            adapter.loadMoreModule.isEnableLoadMore = false
         } else {
             swipeRefreshLayout.isEnabled = false
         }
@@ -108,11 +106,11 @@ class InTheatersFragment : BaseLazyFragment() {
 
                             swipeRefreshLayout.isRefreshing = false
 
-                            adapter.setNewData(t.subjects)
+                            adapter.setList(t.subjects)
                             if (adapter.itemCount < pageSize)
-                                adapter.loadMoreEnd()
+                                adapter.loadMoreModule.loadMoreEnd()
                             else
-                                adapter.setEnableLoadMore(true)
+                                adapter.loadMoreModule.isEnableLoadMore = true
 
                             if (t.subjects.isEmpty()) {
                                 loadService.showCallback(EmptyCallback::class.java)
@@ -127,9 +125,9 @@ class InTheatersFragment : BaseLazyFragment() {
                             adapter.addData(t.subjects)
 
                             if ((currentPage + 1) * pageSize >= t.total) {
-                                adapter.loadMoreEnd()
+                                adapter.loadMoreModule.loadMoreEnd()
                             } else {
-                                adapter.loadMoreComplete()
+                                adapter.loadMoreModule.loadMoreComplete()
                             }
                         }
                     }
@@ -143,10 +141,10 @@ class InTheatersFragment : BaseLazyFragment() {
                                 loadService.showCallback(ErrorCallback::class.java)
                             }
                             swipeRefreshLayout.isRefreshing = false
-                            adapter.setEnableLoadMore(true)
+                            adapter.loadMoreModule.isEnableLoadMore = true
                         } else {
                             swipeRefreshLayout.isEnabled = true
-                            adapter.loadMoreFail()
+                            adapter.loadMoreModule.loadMoreFail()
                         }
                     }
                 })

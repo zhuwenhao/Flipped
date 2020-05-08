@@ -21,17 +21,12 @@ data class Subject(val rating: Rating,
                    val year: String,
                    val images: Image,
                    val alt: String,
-                   val id: String) : MultiItemEntity {
+                   val id: String,
+                   override val itemType: Int) : MultiItemEntity {
 
     companion object {
         const val TYPE_HEADER: Int = 1
         const val TYPE_DATA: Int = 2
-    }
-
-    var type: Int = 0
-
-    override fun getItemType(): Int {
-        return type
     }
 
     constructor(itemType: Int, mainlandDate: String, mainlandDateTime: DateTime, mainlandDateForHeader: String, subject: Subject) : this(subject.rating,
@@ -49,8 +44,8 @@ data class Subject(val rating: Rating,
             subject.year,
             subject.images,
             subject.alt,
-            subject.id) {
-        type = itemType
+            subject.id,
+            itemType) {
         this.mainlandDate = mainlandDate
         this.mainlandDateTime = mainlandDateTime
         this.mainlandDateForHeader = mainlandDateForHeader

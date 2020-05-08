@@ -1,11 +1,13 @@
 package com.zhuwenhao.flipped
 
 import android.app.Application
+import com.chad.library.adapter.base.module.LoadMoreModuleConfig
 import com.kingja.loadsir.core.LoadSir
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
 import com.zhuwenhao.flipped.db.ObjectBox
+import com.zhuwenhao.flipped.view.CustomLoadMoreView
 import com.zhuwenhao.flipped.view.callback.EmptyCallback
 import com.zhuwenhao.flipped.view.callback.ErrorCallback
 import com.zhuwenhao.flipped.view.callback.LoadingCallback
@@ -48,5 +50,7 @@ class FlippedApp : Application() {
                 .addCallback(ErrorCallback())
                 .setDefaultCallback(LoadingCallback::class.java)
                 .commit()
+
+        LoadMoreModuleConfig.defLoadMoreView = CustomLoadMoreView()
     }
 }

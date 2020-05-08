@@ -61,7 +61,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
     private fun initPref() {
         prefTitle = findPreference("prefTitle")!!
         prefTitle.setOnPreferenceClickListener {
-            MaterialDialog(context!!).show {
+            MaterialDialog(requireContext()).show {
                 title(text = it.title.toString())
                 input(hintRes = R.string.widget_title_check_hint, prefill = it.summary, inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE) { _, text ->
                     it.summary = text
@@ -90,7 +90,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             } else {
                 DateTime.parse(it.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd"))
             }
-            val dialog = DatePickerDialog(context!!, DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
+            val dialog = DatePickerDialog(requireContext(), DatePickerDialog.OnDateSetListener { _, year, month, dayOfMonth ->
                 it.summary = DateTime(year, month + 1, dayOfMonth, 0, 0).toString("yyyy-MM-dd")
             }, dateTime.year, dateTime.monthOfYear - 1, dateTime.dayOfMonth)
             if (prefCountdown.isChecked) {
@@ -103,7 +103,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        textSizeList = context!!.resources.getTextArray(R.array.pref_list_text_size)
+        textSizeList = requireContext().resources.getTextArray(R.array.pref_list_text_size)
 
         prefTitleSize = findPreference("prefTitleSize")!!
         prefTitleSize.summary = textSizeList[0]
@@ -165,12 +165,12 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        textAlignmentList = context!!.resources.getTextArray(R.array.pref_list_text_alignment)
+        textAlignmentList = requireContext().resources.getTextArray(R.array.pref_list_text_alignment)
 
         prefAlignment = findPreference("prefAlignment")!!
         prefAlignment.summary = textAlignmentList[textAlignment]
         prefAlignment.setOnPreferenceClickListener {
-            MaterialDialog(context!!).show {
+            MaterialDialog(requireContext()).show {
                 title(text = it.title.toString())
                 listItems(R.array.pref_list_text_alignment) { _, index, text ->
                     textAlignment = index
@@ -214,7 +214,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun showTextSizeSingleChoiceDialog(preference: Preference) {
-        MaterialDialog(context!!).show {
+        MaterialDialog(requireContext()).show {
             title(text = preference.title.toString())
             listItems(R.array.pref_list_text_size) { _, _, text ->
                 preference.summary = text
@@ -223,7 +223,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun showColorChooserDialog(preference: Preference) {
-        val dialog = MaterialDialog(context!!)
+        val dialog = MaterialDialog(requireContext())
                 .title(text = preference.title.toString())
                 .customView(R.layout.dialog_color_chooser)
                 .positiveButton(android.R.string.ok) { dialog ->
@@ -295,7 +295,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         val pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val views = RemoteViews(context!!.packageName, when (textAlignment) {
+        val views = RemoteViews(requireContext().packageName, when (textAlignment) {
             0 -> R.layout.widget_days_top_left
             1 -> R.layout.widget_days_top_right
             2 -> R.layout.widget_days_bottom_left
@@ -313,12 +313,12 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
         views.setTextColor(R.id.textTitle, Color.parseColor(prefTitleColor.summary.toString()))
         views.setTextViewText(R.id.textDays, if (prefCountdown.isChecked) {
             if (prefStartDate.summary == DateTime.now().toString("yyyy-MM-dd")) {
-                context!!.getString(R.string.days_widget_days_today)
+                requireContext().getString(R.string.days_widget_days_today)
             } else {
-                context!!.getString(R.string.days_widget_days_left, Period(DateTime.now(), DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), PeriodType.days()).days + 1)
+                requireContext().getString(R.string.days_widget_days_left, Period(DateTime.now(), DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), PeriodType.days()).days + 1)
             }
         } else {
-            context!!.getString(R.string.days_widget_days, Period(DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1)
+            requireContext().getString(R.string.days_widget_days, Period(DateTime.parse(prefStartDate.summary.toString(), DateTimeFormat.forPattern("yyyy-MM-dd")), DateTime.now(), PeriodType.days()).days + 1)
         })
         views.setTextViewTextSize(R.id.textDays, TypedValue.COMPLEX_UNIT_SP, prefDaysSize.summary.toString().toFloat())
         views.setTextColor(R.id.textDays, Color.parseColor(prefDaysColor.summary.toString()))
@@ -327,7 +327,7 @@ class DaysWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         val resultIntent = Intent()
         resultIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-        activity!!.setResult(Activity.RESULT_OK, intent)
-        activity!!.finish()
+        requireActivity().setResult(Activity.RESULT_OK, intent)
+        requireActivity().finish()
     }
 }

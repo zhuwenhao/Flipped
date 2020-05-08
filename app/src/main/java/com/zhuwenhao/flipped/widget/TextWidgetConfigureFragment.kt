@@ -49,7 +49,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     private fun initPref() {
         prefTitle = findPreference("prefTitle")!!
         prefTitle.setOnPreferenceClickListener {
-            MaterialDialog(context!!).show {
+            MaterialDialog(requireContext()).show {
                 title(text = it.title.toString())
                 input(hintRes = R.string.widget_title_check_hint, prefill = it.summary, inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE) { _, text ->
                     it.summary = text
@@ -61,7 +61,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        textSizeList = context!!.resources.getTextArray(R.array.pref_list_text_size)
+        textSizeList = requireContext().resources.getTextArray(R.array.pref_list_text_size)
 
         prefTitleSize = findPreference("prefTitleSize")!!
         prefTitleSize.summary = textSizeList[0]
@@ -79,12 +79,12 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
             true
         }
 
-        textAlignmentList = context!!.resources.getTextArray(R.array.pref_list_text_alignment)
+        textAlignmentList = requireContext().resources.getTextArray(R.array.pref_list_text_alignment)
 
         prefAlignment = findPreference("prefAlignment")!!
         prefAlignment.summary = textAlignmentList[textAlignment]
         prefAlignment.setOnPreferenceClickListener {
-            MaterialDialog(context!!).show {
+            MaterialDialog(requireContext()).show {
                 title(text = it.title.toString())
                 listItems(R.array.pref_list_text_alignment) { _, index, text ->
                     textAlignment = index
@@ -112,7 +112,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun showTextSizeSingleChoiceDialog(preference: Preference) {
-        MaterialDialog(context!!).show {
+        MaterialDialog(requireContext()).show {
             title(text = preference.title.toString())
             listItems(R.array.pref_list_text_size) { _, _, text ->
                 preference.summary = text
@@ -121,7 +121,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
     }
 
     private fun showColorChooserDialog(preference: Preference) {
-        val dialog = MaterialDialog(context!!)
+        val dialog = MaterialDialog(requireContext())
                 .title(text = preference.title.toString())
                 .customView(R.layout.dialog_color_chooser)
                 .positiveButton(android.R.string.ok) { dialog ->
@@ -165,7 +165,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
         val pendingIntent = PendingIntent.getActivity(context, widgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val views = RemoteViews(context!!.packageName, when (textAlignment) {
+        val views = RemoteViews(requireContext().packageName, when (textAlignment) {
             0 -> R.layout.widget_text_top_left
             1 -> R.layout.widget_text_top_right
             2 -> R.layout.widget_text_bottom_left
@@ -186,7 +186,7 @@ class TextWidgetConfigureFragment : PreferenceFragmentCompat() {
 
         val resultIntent = Intent()
         resultIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId)
-        activity!!.setResult(Activity.RESULT_OK, intent)
-        activity!!.finish()
+        requireActivity().setResult(Activity.RESULT_OK, intent)
+        requireActivity().finish()
     }
 }
